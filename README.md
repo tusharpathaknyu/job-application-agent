@@ -109,6 +109,30 @@ ARTIFACT_DIR=/var/data/packages
 
 `APP_PASSWORD` is mandatory in hosted mode; the server will refuse to start without it. Leave `AUTO_SUBMIT=false`, `AUTO_OUTREACH=false`, and `ENABLE_LIVE_OUTREACH=false` until you have reviewed dry-run behavior.
 
+## Host it on Streamlit Community Cloud
+
+Use `streamlit_app.py` as the app entrypoint. Streamlit Community Cloud can deploy private GitHub repositories, but the deployed app still has a public URL, so this app requires `APP_PASSWORD` in Streamlit secrets before it will show the dashboard.
+
+In Streamlit Cloud:
+
+1. Create a new app from `tusharpathaknyu/job-application-agent`.
+2. Set the main file path to `streamlit_app.py`.
+3. In **Advanced settings → Secrets**, add:
+
+```toml
+APP_USERNAME = "tushar"
+APP_PASSWORD = "choose-a-long-private-password"
+OPENAI_API_KEY = "<paste-your-key-here>"
+OPENAI_MODEL = "gpt-5.5"
+DATABASE_PATH = "data/job_agent.db"
+ARTIFACT_DIR = "data/packages"
+AUTO_SUBMIT = "false"
+AUTO_OUTREACH = "false"
+ENABLE_LIVE_OUTREACH = "false"
+```
+
+Do not commit `.streamlit/secrets.toml`. Streamlit Community Cloud filesystem persistence is limited, so treat the SQLite database and generated packages there as working state, not your only long-term archive.
+
 The default profile inputs are `profile/candidate_context.json` and `profile/resume_template.tex`. Override them with `CANDIDATE_CONTEXT_PATH` and `RESUME_TEMPLATE_PATH`. The context contains internal provenance notes used to prevent accidental fabrication; those notes are not included in generated application materials.
 
 See `.env.example` for the full list of `AUTO_SUBMIT`/`AUTO_OUTREACH` and related flags — all default off. Auto-submit needs `pip install -e '.[automation]'` plus `playwright install chromium`; outreach needs `SMTP_*` set before it can send live (it stays in dry-run otherwise).

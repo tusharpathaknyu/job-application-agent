@@ -6,3 +6,4 @@ data/
 artifacts/
 .claude/
 .DS_Store
+.streamlit/secrets.toml
