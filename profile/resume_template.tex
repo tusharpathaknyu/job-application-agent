@@ -1,0 +1,143 @@
+\documentclass[letterpaper,9pt]{article}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{tabularx}
+\usepackage{charter}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.0in}
+\addtolength{\topmargin}{-0.8in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-10pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small\textbf{#1} & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}\setlength{\itemsep}{0pt}\setlength{\parsep}{0pt}\setlength{\parskip}{0pt}\setlength{\topsep}{0pt}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \scshape Tushar Pathak} \\ \vspace{6pt}
+    \small Phone: +1 (718) 413-9793 $|$
+    Email: \href{mailto:tpathak1411@gmail.com}{tpathak1411@gmail.com} $|$
+    Portfolio: \href{https://tusharpathaknyu.github.io/}{tusharpathaknyu.github.io} $|$
+    LinkedIn: \href{https://linkedin.com/in/tushar-pathak-7b945219a/}{linkedin.com/in/tushar-pathak}
+\end{center}
+\vspace{-5pt}
+
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {New York University}{New York, USA}
+      {M.S. Computer Engineering (Graduate Scholarship Recipient)}{January 2024 -- December 2025}
+    \resumeSubheading
+      {Birla Institute of Technology and Science (BITS) Pilani}{Hyderabad, India}
+      {B.E. Electrical and Electronics Engineering}{August 2019 -- July 2023}
+  \resumeSubHeadingListEnd
+
+\section{Work Experience}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Texas Instruments}{Bangalore, India}
+      {Applications Engineering Intern (Analog Power)}{January 2023 -- July 2023}
+      \resumeItemListStart
+        \resumeItem{Worked on \textbf{DC-DC power conversion} at the system level: bench \textbf{characterization, validation, and debug} of a \textbf{65W GaN-based flyback USB-PD power system} (full AC/DC chain: 220V AC line $\to$ rectification $\to$ DC/DC $\to$ regulated output) using \textbf{oscilloscopes, electronic loads, power analyzers, and FLIR}; analyzed \textbf{efficiency, transient response, switching behavior, and thermal} across load/line/temperature.}
+        \resumeItem{Performed \textbf{topology and competitive tradeoff analysis} via structured benchmarking; built \textbf{Python automation} (NumPy, Pandas, Matplotlib) for test execution, regression, and data analysis; produced characterization reports supporting \textbf{system specifications and validation plans}.}
+        \resumeItem{Designed a \textbf{4-layer power evaluation board (Altium Designer)} -- schematic capture, layout, high-current routing, decoupling, DRC, prototype bring-up; collaborated cross-functionally with \textbf{design, systems, product, and quality teams} to resolve system design challenges.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {LayeredAI}{Remote}
+      {AI Solutions Engineer}{March 2026 -- Present}
+      \resumeItemListStart
+        \resumeItem{Customer-facing technical role: engaging stakeholders to understand system requirements, providing technical recommendations, and \textbf{translating customer needs into solutions} across multiple concurrent engagements.}
+        \resumeItem{Create and deliver \textbf{technical content and documentation}, conveying complex technical concepts to diverse technical and non-technical audiences.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Dreamline AI}{Remote}
+      {Software Engineer}{August 2025 -- April 2026}
+      \resumeItemListStart
+        \resumeItem{Shipped scalable software in \textbf{C++ and Python}; built backend services, automation, and \textbf{modeling/data-analysis workflows} with strong attention to quality and on-time delivery in a cross-functional agile team.}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+\section{Projects --- Power Conversion Architecture, Modeling, and Validation}
+  \resumeSubHeadingListStart
+
+    \resumeProjectHeading
+      {\textbf{FPGA-Controlled Buck Converter: DC-DC Power System Design and Hardware Validation}}{\href{https://github.com/tusharpathaknyu/fpga-buck-converter}{\underline{GitHub}}}
+      \resumeItemListStart
+        \resumeItem{Designed and \textbf{validated on the bench} a \textbf{12V$\to$5V DC-DC converter}: 100 kHz PWM $\to$ TC4420 gate driver $\to$ power MOSFET $\to$ LC filter, with ADC feedback (MCP3202 over SPI) and a closed-loop PI controller; analyzed \textbf{efficiency, transient response, switching behavior, and fault handling} (soft-start, anti-windup, duty clamp).}
+        \resumeItem{\textbf{System bring-up, debugging, and characterization} using oscilloscope (switching waveforms), multimeter (regulation), and logic analyzer (ADC framing); validated closed-loop regulation, ripple, and load-step response -- demonstrates \textbf{switching-converter design and hardware validation}.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{Neural Surrogate Modeling of DC-DC Converters: System Modeling and Tradeoff Optimization}}{\href{https://github.com/tusharpathaknyu/neural-surrogate-rl-circuits}{\underline{GitHub}}}
+      \resumeItemListStart
+        \resumeItem{Built a \textbf{behavioral system model of DC-DC power-converter circuits} (555K-parameter surrogate) validated against \textbf{268K+ ngspice transient, AC, DC, and Monte Carlo simulations} (1000$\times$+ SPICE speedup); trained an RL agent for \textbf{system optimization} of efficiency and transient response -- \textbf{modeling, simulation, and tradeoff analysis} for power-converter design.}
+      \resumeItemListEnd
+
+    \resumeProjectHeading
+      {\textbf{GYMEZ Combat Band: Power-Distribution and Battery-Management Board}}{\href{https://drive.google.com/file/d/1Bblu7B7Vc8k-GNw__FpN8krgqqBLiOwr/view}{\underline{PCB Schematic}}}
+      \resumeItemListStart
+        \resumeItem{Designed a \textbf{4-layer PCB} with multi-rail \textbf{power distribution}, battery management (charging IC, MOSFET protection, \textbf{LDO regulation}, ESD), and full \textbf{board bring-up and debug} with lab instruments -- hands-on \textbf{power-delivery design and validation}.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Power Electronics \&\ Conversion: }DC-DC converters (buck, boost, flyback), \textbf{switching converters}, multiphase buck concepts, resonant converter (LLC/DAB/CLLC) concepts, switched-capacitor concepts, intermediate bus converter (IBC) concepts, LDOs, USB-PD, AC/DC conversion; \textbf{GaN devices (bench experience)}, Si MOSFETs, power semiconductor devices, magnetics (inductors/transformers) concepts, planar magnetics concepts \\
+     \textbf{System Modeling \&\ Simulation: }Behavioral/system modeling of DC-DC converters, simulation and tradeoff analysis (efficiency, power density, transient, thermal, fault protection); SPICE (ngspice, LTspice), MATLAB, SIMPLIS concepts, Monte Carlo analysis; system specifications and validation plans \\
+     \textbf{Hardware Validation \&\ Lab: }Power-system bring-up, debug, characterization; efficiency, transient response, EMI concepts, thermal analysis, fault protection; oscilloscopes, electronic loads, power analyzers, programmable supplies, multimeters, logic analyzers, FLIR; 4-layer PCB design (Altium, KiCad), board bring-up \\
+     \textbf{Programming, Markets \&\ Collaboration: }Python (NumPy, Pandas, Matplotlib), C, C++, MATLAB, Tcl, Bash; HVDC (48V/400V/800V) concepts, AI server / GPU / data center / telecom power concepts; cross-functional collaboration with IC design, magnetics, packaging, thermal, firmware, and applications teams; customer engagement \\
+     \textbf{Patents \&\ Recognition: }Graduate Scholarship Recipient, NYU; active GitHub portfolio of power-electronics and ML-hardware projects
+    }}
+ \end{itemize}
+
+\end{document}

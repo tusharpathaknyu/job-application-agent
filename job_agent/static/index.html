@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job Agent</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header>
+    <div><span class="eyebrow">PRIVATE · LOCAL ONLY · APPROVAL-FIRST</span><h1>Job Agent</h1></div>
+    <button id="sync">Find jobs</button>
+  </header>
+  <main>
+    <section class="panel profile-panel">
+      <div class="section-title"><h2>Your source profile</h2><span>Saved locally</span></div>
+      <p id="context-status" class="meta">Loading candidate context…</p>
+      <form id="profile-form">
+        <div class="grid two">
+          <label>Full name<input name="full_name" required></label>
+          <label>Email<input name="email" type="email" required></label>
+          <label>Phone<input name="phone"></label>
+          <label>Location<input name="location"></label>
+          <label>LinkedIn URL<input name="linkedin_url" type="url"></label>
+          <label>Portfolio URL<input name="portfolio_url" type="url"></label>
+        </div>
+        <label>Target roles<input name="target_roles" placeholder="Backend engineer, platform engineer"></label>
+        <div class="grid two">
+          <label>Work authorization<input name="work_authorization" placeholder="Example: F-1 OPT through …"></label>
+          <label>Sponsorship required<input name="sponsorship_required" placeholder="Yes, no, or timing details"></label>
+          <label>Location preferences<input name="location_preferences" placeholder="Remote US; Chicago; willing to relocate"></label>
+          <label>Salary preferences<input name="salary_preferences" placeholder="Optional minimum or range"></label>
+        </div>
+        <label>Search preferences<textarea name="preferences" rows="3" placeholder="Industries to prioritize or avoid, company size, role constraints..."></textarea></label>
+        <label>Reusable application notes<textarea name="application_notes" rows="3" placeholder="Start date, relocation details, demographic-question handling, or other screening answers. Leave unknowns blank."></textarea></label>
+        <details class="answer-details">
+          <summary>Reusable application-form answers</summary>
+          <p class="privacy-note">Stored only in the local database. Do not enter SSNs, passport numbers, passwords, birth dates, banking details, or other identity documents.</p>
+          <p id="application-answer-status" class="meta">No reusable answers saved yet.</p>
+          <div class="grid two">
+            <label>Full legal name<input name="legal_name"></label>
+            <label>Preferred name<input name="preferred_name"></label>
+            <label>Street address<input name="street_address"></label>
+            <label>City<input name="city"></label>
+            <label>State / province<input name="state_province"></label>
+            <label>Postal code<input name="postal_code"></label>
+            <label>Country of residence<input name="country_of_residence"></label>
+            <label>GitHub URL<input name="github_url" type="url"></label>
+            <label>Earliest start date<input name="earliest_start_date" type="date"></label>
+            <label>Employment types<input name="employment_types" placeholder="Full-time, permanent"></label>
+            <label>Willing to relocate<select name="willing_to_relocate"><option value=""></option><option>Yes</option><option>No</option><option>Depends on location</option></select></label>
+            <label>Willing to travel<select name="willing_to_travel"><option value=""></option><option>Yes</option><option>No</option><option>Limited travel</option></select></label>
+          </div>
+          <h3 class="form-subheading">Work authorization</h3>
+          <div class="grid two">
+            <label>Authorized in United States<input name="authorized_us" placeholder="Yes/No and visa details"></label>
+            <label>Need US sponsorship<input name="sponsorship_us" placeholder="Yes/No and timing"></label>
+            <label>Authorized in Canada<input name="authorized_canada" placeholder="Yes/No and permit details"></label>
+            <label>Need Canada sponsorship<input name="sponsorship_canada" placeholder="Yes/No"></label>
+            <label>Authorized in United Kingdom<input name="authorized_uk" placeholder="Yes/No and visa details"></label>
+            <label>Need UK sponsorship<input name="sponsorship_uk" placeholder="Yes/No"></label>
+            <label>Authorized in Australia<input name="authorized_australia" placeholder="Yes/No and visa details"></label>
+            <label>Need Australia sponsorship<input name="sponsorship_australia" placeholder="Yes/No"></label>
+            <label>Authorized in India<input name="authorized_india" placeholder="Yes/No"></label>
+            <label>Voluntary demographics<select name="demographic_response_policy"><option value=""></option><option>Prefer not to answer</option><option>Ask me each time</option></select></label>
+          </div>
+          <label>Other reusable answers<textarea name="additional_form_answers" rows="4" placeholder="Notice period, start-date context, relocation constraints, or answers that are safe to reuse."></textarea></label>
+        </details>
+        <label>Optional base resume<textarea name="base_resume" rows="12" placeholder="Optional: paste another resume version here. The canonical profile and LaTeX template are loaded separately."></textarea></label>
+        <button type="submit">Save profile</button>
+      </form>
+    </section>
+
+    <section class="panel jobs-panel">
+      <div class="section-title"><h2>Job queue</h2><span id="job-count">0 jobs</span></div>
+      <div id="lane-summary" class="lane-summary" aria-label="Role lane coverage"></div>
+      <div id="region-summary" class="lane-summary" aria-label="Geographic coverage"></div>
+      <input id="job-filter" type="search" placeholder="Filter by title, company, location, or status">
+      <div id="jobs" class="jobs"></div>
+    </section>
+
+    <section id="review" class="panel review-panel hidden">
+      <div class="section-title"><h2>Review package</h2><button class="quiet" id="close-review">Close</button></div>
+      <div id="review-content"></div>
+    </section>
+
+    <section class="panel yc-panel">
+      <div class="section-title"><h2>YC outreach</h2><span id="yc-count">0 companies</span></div>
+      <p class="meta">Public YC directory + domain-guessed hiring aliases. Outreach drafts and sends stay in dry-run (preview only, nothing sent) until <code>ENABLE_LIVE_OUTREACH=true</code>.</p>
+      <button id="yc-sync">Sync YC companies</button>
+      <div id="yc-companies" class="jobs"></div>
+    </section>
+
+    <section class="panel startup-panel">
+      <div class="section-title"><h2>Funded startup outreach</h2><span id="startup-count">0 companies</span></div>
+      <p class="meta">Free sources first: YC directory, SEC Form D recent filings, and optional public portfolio URLs. Companies are ranked by profile fit; outreach drafts stay local/dry-run.</p>
+      <button id="startup-sync">Sync funded startups</button>
+      <div id="startups" class="jobs"></div>
+    </section>
+
+    <section class="panel automation-panel">
+      <div class="section-title"><h2>Automation activity</h2><span id="automation-count">0 events</span></div>
+      <p class="meta">Audit trail for autonomous submissions and outreach sends, dry-run or live.</p>
+      <div id="automation-log" class="jobs"></div>
+    </section>
+
+    <section class="panel manual-panel">
+      <details>
+        <summary>Add a job manually</summary>
+        <form id="manual-form">
+          <div class="grid two"><label>Title<input name="title" required></label><label>Company<input name="company" required></label></div>
+          <div class="grid two"><label>Location<input name="location"></label><label>Job URL<input name="url" type="url" required></label></div>
+          <label>Description<textarea name="description" rows="8" required></textarea></label>
+          <button type="submit">Add to queue</button>
+        </form>
+      </details>
+    </section>
+  </main>
+  <div id="toast" role="status"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+[project]
+name = "approval-first-job-agent"
+version = "0.1.0"
+description = "Local-first job discovery and resume tailoring with an approval gate"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+pdf = ["reportlab>=4.0", "pypdf>=5.0"]
+automation = ["playwright>=1.40"]
+
+[project.scripts]
+job-agent = "job_agent.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

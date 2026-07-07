@@ -1,0 +1,552 @@
+{
+  "schema_version": 1,
+  "updated": "2026-07-06",
+  "purpose": "Canonical candidate memory for job discovery, resume tailoring and approval-first applications.",
+  "identity": {
+    "resume_name": "Tushar Pathak",
+    "full_name_seen_in_records": "Tushar Dhananjay Pathak / Pathak Tushar Dhananjay",
+    "phone": "+1 (718) 413-9793",
+    "email": "tpathak1411@gmail.com",
+    "linkedin": "https://linkedin.com/in/tushar-pathak-7b945219a/",
+    "github": "https://github.com/tusharpathaknyu",
+    "portfolio": "https://tusharpathaknyu.github.io/"
+  },
+  "professional_positioning": {
+    "primary": "Electrical and computer engineer with experience spanning power electronics, FPGA/RTL, backend software development and applied AI.",
+    "role_specific_rule": "Vary the emphasis among hardware, software and AI according to the job while retaining the candidate's electrical and computer engineering foundation.",
+    "prohibited_headline": "Do not describe the candidate as a Software and AI Engineer."
+  },
+  "education": [
+    {
+      "institution": "New York University",
+      "location": "New York, USA",
+      "degree": "M.S. Computer Engineering",
+      "dates": "January 2024 - December 2025",
+      "additional_context": [
+        "Graduate Scholarship Recipient"
+      ]
+    },
+    {
+      "institution": "Birla Institute of Technology and Science (BITS) Pilani",
+      "location": "Hyderabad, India",
+      "degree": "B.E. Electrical and Electronics Engineering",
+      "dates": "August 2019 - July 2023",
+      "additional_context": []
+    }
+  ],
+  "experience": [
+    {
+      "organization": "LayeredAI",
+      "role": "AI Solutions Engineer",
+      "dates": "March 2026 - Present",
+      "location": "Remote",
+      "responsibilities_and_contributions": [
+        "Customer-facing engineering role translating stakeholder requirements into technical recommendations and custom AI solutions.",
+        "Creates technical documentation, demos and presentations for technical and non-technical audiences."
+      ],
+      "internal_source_context": "Resume + private portfolio only",
+      "internal_tailoring_note": "Confirm legal employer/client relationship, exact start date, production deployments, tools/languages and measurable delivery outcomes."
+    },
+    {
+      "organization": "Dreamline AI",
+      "role": "Software Engineer, Software Development Team",
+      "dates": "August 29, 2025 - April 23, 2026",
+      "location": "Remote",
+      "responsibilities_and_contributions": [
+        "Designed and developed scalable software applications while following coding standards, best practices and project requirements.",
+        "Implemented and maintained RESTful APIs and backend services and improved data-processing workflows for reliability and efficiency.",
+        "Collaborated with product, UI/UX and QA teams and participated in code reviews focused on quality and maintainability."
+      ],
+      "internal_source_context": "Employer experience certificate supplied by candidate",
+      "internal_tailoring_note": "C++/Python, CI/CD, regression automation and modeling claims appear in resumes but not in the supplied certificate; retain only with code, manager confirmation or work samples."
+    },
+    {
+      "organization": "Texas Instruments (India) Pvt. Ltd.",
+      "role": "Trainee / Applications Engineering Intern (resume wording)",
+      "dates": "January 23, 2023 - July 14, 2023",
+      "location": "Bangalore, India",
+      "responsibilities_and_contributions": [
+        "Completed a training project on competitive benchmarking and teardown of a charger under project guide Ramkumar S.",
+        "Completed PCB board design work in Altium as part of the training engagement."
+      ],
+      "internal_source_context": "Training certificate details supplied by candidate",
+      "internal_tailoring_note": "The certificate text provided does not establish 65 W GaN/flyback/USB-PD specifics, Python automation, test instruments, FLIR, four-layer layout, bring-up or measured results. Link those details to a report or manager confirmation before use."
+    },
+    {
+      "organization": "Xarvis",
+      "role": "Software Developer Intern",
+      "dates": "May 2021 - June 2021",
+      "location": "Not supplied",
+      "responsibilities_and_contributions": [
+        "Extended domain and repository layers for a new tenant-information schema.",
+        "Implemented add, delete and get REST endpoints in the controller layer and integrated them with Swagger for discoverable, executable API documentation."
+      ],
+      "internal_source_context": "Candidate statement + private portfolio",
+      "internal_tailoring_note": "Confirm employer name styling, exact dates, technology stack, team context and whether endpoints were deployed to production."
+    }
+  ],
+  "target_lanes": [
+    "Power electronics and power-conversion engineering",
+    "Analog, board and hardware validation",
+    "FPGA design, prototyping and validation engineering",
+    "SoC, ASIC, RTL and verification engineering",
+    "SerDes and mixed-signal validation",
+    "AI/ML engineering for circuits and hardware",
+    "Applications and field-applications engineering",
+    "Solutions engineering and customer-facing technical roles",
+    "Software engineering: backend, full-stack and platform roles",
+    "Applied AI, machine-learning and AI product engineering",
+    "Game development, Unity/Godot gameplay and XR/fitness-game engineering"
+  ],
+  "skill_groups": {
+    "programming_and_scripting": [
+      "Python",
+      "C",
+      "C++",
+      "SystemVerilog",
+      "Verilog",
+      "Tcl",
+      "Bash",
+      "MATLAB"
+    ],
+    "digital_design_and_verification": [
+      "RTL design",
+      "UVM",
+      "SVA",
+      "RISC-V RV32I",
+      "cocotb",
+      "Icarus Verilog",
+      "Verilator",
+      "Yosys",
+      "Vivado",
+      "Gowin EDA",
+      "functional and code coverage"
+    ],
+    "power_and_mixed_signal": [
+      "DC-DC converters",
+      "SPICE/ngspice",
+      "LTspice",
+      "Altium Designer",
+      "KiCad",
+      "PCB design",
+      "oscilloscope-based validation",
+      "S-parameters",
+      "SerDes equalization",
+      "BER and eye analysis"
+    ],
+    "ai_ml_and_data": [
+      "PyTorch",
+      "reinforcement learning",
+      "transformers",
+      "graph models",
+      "Gymnasium",
+      "Stable-Baselines3",
+      "NumPy",
+      "Pandas",
+      "Matplotlib",
+      "Jupyter"
+    ],
+    "software_and_platforms": [
+      "REST APIs",
+      "FastAPI",
+      "backend services",
+      "Swagger/OpenAPI",
+      "Streamlit",
+      "Docker",
+      "Cloud Run",
+      "GitHub Actions",
+      "Datadog"
+    ],
+    "game_and_interactive_systems": [
+      "Unity 6",
+      "C#",
+      "Godot 4.5",
+      "GDScript",
+      "React Native Unity bridge",
+      "MediaPipe Pose Landmarker",
+      "camera-driven gameplay",
+      "game progression systems",
+      "biometric PvP mechanics",
+      "mobile game integration",
+      "XR/VR/AR-adjacent interaction"
+    ]
+  },
+  "resume_style": {
+    "format": "LaTeX",
+    "template_file": "profile/resume_template.tex",
+    "page_size": "US Letter",
+    "body_font": "Charter, 9 pt",
+    "page_count_target": 1,
+    "section_order": [
+      "Education",
+      "Work Experience",
+      "Role-specific Projects",
+      "Technical Skills"
+    ],
+    "selection_rules": [
+      "Preserve the supplied preamble, commands, contact block and section-rule styling.",
+      "Select two or three projects that best match the job description.",
+      "Reorder experience or projects for relevance without changing dates, titles or facts.",
+      "Keep concise action-and-impact bullets and return complete compilable LaTeX."
+    ],
+    "recent_resume_variants": [
+      {
+        "timestamp": "2026-06-29 19:13",
+        "target_lane": "Power-conversion architecture",
+        "experience_order": "TI, LayeredAI, Dreamline",
+        "selected_projects": "FPGA buck; neural surrogate; GymEZ CombatBand"
+      },
+      {
+        "timestamp": "2026-06-29 19:00",
+        "target_lane": "Analog power / board hardware",
+        "experience_order": "TI, LayeredAI, Dreamline",
+        "selected_projects": "FPGA buck; GymEZ CombatBand; neural surrogate"
+      },
+      {
+        "timestamp": "2026-06-28 20:40",
+        "target_lane": "SoC/ASIC verification",
+        "experience_order": "LayeredAI, Dreamline, TI",
+        "selected_projects": "RISCV; UVMForge; ARCS"
+      },
+      {
+        "timestamp": "2026-06-28 19:21",
+        "target_lane": "SoC/ASIC verification",
+        "experience_order": "LayeredAI, Dreamline, TI",
+        "selected_projects": "RISCV; UVMForge; ARCS"
+      },
+      {
+        "timestamp": "2026-06-27 17:05",
+        "target_lane": "SerDes / mixed-signal validation",
+        "experience_order": "TI, LayeredAI, Dreamline",
+        "selected_projects": "SerDes; FPGA buck; GymEZ CombatBand"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "name": "FPGA-Controlled Buck Converter",
+      "repository": "fpga-buck-converter",
+      "url": "https://github.com/tusharpathaknyu/fpga-buck-converter",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "Digitally controlled 12 V-to-5 V buck-converter platform for a Gowin GW5A-25 FPGA, combining Verilog PWM, MCP3202 SPI acquisition and fixed-point PI control with staged bench bring-up.",
+      "highlights": [
+        "Repository reports five RTL testbenches with 32 checks and documents a signed-arithmetic bug found during closed-loop simulation.",
+        "Bench log records FPGA/toolchain bring-up plus a scope-verified 100 kHz, 41.6% PWM output and a 0-to-5 V TC4420 driver output.",
+        "The README explicitly distinguishes completed PWM/driver validation from unpowered MOSFET, open-loop buck, ADC and closed-loop hardware phases."
+      ],
+      "technology_context": "Verilog, Icarus Verilog, Gowin EDA/CLI, Tcl, Make, SPI, fixed-point PI control, mixed-signal bench validation",
+      "canonical_resume_bullet": "Designed and simulated an FPGA-based digital power controller with 100 kHz PWM, SPI ADC interface and fixed-point PI loop; validated FPGA and 5 V gate-driver stages on an oscilloscope through a staged hardware bring-up plan.",
+      "internal_source_context": "README.md, Makefile, RTL/testbench tree, bench log; no GitHub Actions runs.",
+      "internal_tailoring_note": "Do not claim a working 12 V-to-5 V converter or closed-loop regulation yet; those hardware phases are documented as planned/RTL-only."
+    },
+    {
+      "name": "RV32I 5-Stage Pipelined Processor",
+      "repository": "RISCV",
+      "url": "https://github.com/tusharpathaknyu/RISCV",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "Clean-room SystemVerilog implementation of a 32-bit, five-stage RV32I core with forwarding, load-use interlock, branch flushing, self-checking assembly tests, synthesis and gate-level simulation flows.",
+      "highlights": [
+        "README reports a 15-module synthesizable hierarchy, six self-checking programs passing at RTL and gate level, and a dependency-free Python assembler.",
+        "Reported Yosys results are approximately 7,235 cells and 1,563 flip-flops; measured CPI ranges from 1.13 for straight-line logic to 1.65 for branch-heavy code.",
+        "Latest GitHub Actions run on 2026-06-05 failed at the RTL self-checking regression, conflicting with the README's fully verified claim."
+      ],
+      "technology_context": "SystemVerilog, Verilog, RISC-V RV32I, Python assembler, Icarus Verilog, Verilator, Yosys, Vivado Tcl, gate-level simulation",
+      "canonical_resume_bullet": "Implemented a five-stage RV32I processor with data forwarding, load-use stalls and branch flushing, plus self-checking assembly, RTL synthesis and post-synthesis simulation flows.",
+      "internal_source_context": "README.md, RTL/test trees, Makefile, commit/contributor history, latest CI run.",
+      "internal_tailoring_note": "Re-run/fix the current CI regression and confirm whether contributor handle tpathak1411 is your prior account before claiming all implementation history."
+    },
+    {
+      "name": "High-Speed SerDes Link Validation",
+      "repository": "serdes-link-validation",
+      "url": "https://github.com/tusharpathaknyu/serdes-link-validation",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "PyBERT/scikit-rf validation workflow for a measured backplane channel, including mixed-mode S-parameter analysis, CTLE/FFE/DFE equalization, eye/BER measurements and automated rate sweeps.",
+      "highlights": [
+        "Committed sweep_rate.csv records zero bit errors from 12 through 28 Gb/s and a 117.2 mV eye at 25.78 Gb/s.",
+        "Workflow derives Rx FFE taps from measured post-CTLE pulse-response cursors and generates reproducible CSV/plot outputs.",
+        "README explains that CTLE+DFE alone leaves the eye closed because pre-cursor ISI requires FFE correction."
+      ],
+      "technology_context": "Python, PyBERT 9.2.1, scikit-rf, S-parameters, CTLE, Tx/Rx FFE, DFE, CDR, PRBS, BER/eye analysis",
+      "canonical_resume_bullet": "Built an automated SerDes validation pipeline for a measured backplane channel, recovering error-free 12–28 Gb/s NRZ operation through channel-derived FFE plus CTLE/DFE equalization.",
+      "internal_source_context": "README.md, results/sweep_rate.csv, result figures, source/config tree; no CI workflow.",
+      "internal_tailoring_note": "README text says 122 mV at 25.78 Gb/s while the committed CSV says 117.2 mV; select one reproducible run and use its exact value."
+    },
+    {
+      "name": "Wireless BMS Virtual HIL Tester",
+      "repository": "wBMS-HIL-Tester",
+      "url": "https://github.com/tusharpathaknyu/wBMS-HIL-Tester",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "Pure-Python virtual hardware-in-the-loop framework that separates battery plant, burst-error channel and firmware state machine to validate wireless BMS framing, safety behavior and timing budgets.",
+      "highlights": [
+        "README reports 86 tests covering PEC15 vectors, frame round trips, ECM/PyBaMM plant physics, Hypothesis safety invariants and timing budgets; latest CI completed successfully.",
+        "Committed channel report supports 2,816 packets, 165 corrupted packets, 517 flipped bits, 135 PEC rejections and a fault transition at 7.030 s.",
+        "Test suite documented two design findings: an EMA coefficient that violated a 50 ms over-temperature budget near threshold and a watchdog/telemetry-cadence incompatibility."
+      ],
+      "technology_context": "Python, pytest, Hypothesis, PyBaMM, battery ECM/SPMe models, Gilbert-Elliott channel, PEC15, property/timing testing",
+      "canonical_resume_bullet": "Developed a virtual HIL framework for wireless BMS validation, exercising PEC15 framing, burst-error channels and safety timing; surfaced filter and watchdog assumptions through property-based and timing tests.",
+      "internal_source_context": "README.md, reports/channel_stats.txt, HTML/plot artifacts, tests, pyproject.toml, successful latest CI.",
+      "internal_tailoring_note": "Confirm whether ASIL-D wording should describe a modeled target/budget rather than formal safety certification."
+    },
+    {
+      "name": "UVMForge",
+      "repository": "UVMForge",
+      "url": "https://github.com/tusharpathaknyu/UVMForge",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "Python/Jinja system that converts natural-language or imported hardware specifications into protocol-specific UVM environments, with RTL-aware port extraction, coverage-gap analysis and SVA generation.",
+      "highlights": [
+        "Repository includes templates and examples for APB, AXI4-Lite, UART, SPI and I2C, plus parsers for RTL, IP-XACT, SystemRDL, CSV and JSON inputs.",
+        "Source tree contains dedicated coverage analysis, SVA generation and RTL-aware tests; latest GitHub Actions test workflow succeeded.",
+        "Project includes a Streamlit UI, Docker/Cloud Run deployment files and multiple LLM provider paths including local Ollama."
+      ],
+      "technology_context": "Python, Jinja2, UVM/SystemVerilog, SVA, RTL parsing, IP-XACT, SystemRDL, Streamlit, Docker, Cloud Run, Gemini/OpenAI/Ollama",
+      "canonical_resume_bullet": "Built an RTL-aware UVM testbench generator supporting five bus protocols, specification import, coverage-gap analysis and SVA generation through reusable Python/Jinja templates.",
+      "internal_source_context": "README.md, templates/examples/src/tests tree, workflows, successful latest test run.",
+      "internal_tailoring_note": "Time-saving and 'production-ready' claims are not backed by a committed benchmark; quantify generated-code compile rate and human edit time before using them."
+    },
+    {
+      "name": "RL-Based RTL Verification",
+      "repository": "rl-rtl-verification",
+      "url": "https://github.com/tusharpathaknyu/rl-rtl-verification",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "Reinforcement-learning bug hunter that wraps FIFO RTL as Gymnasium environments and uses PPO/curiosity-driven exploration, with an optional Verilator-backed simulation path.",
+      "highlights": [
+        "Nested project README reports a 100% bug-find rate versus a 0.5% random baseline and an optimal nine-step overflow-triggering sequence.",
+        "Repository contains Python and real RTL/Verilator environments, multi-objective rewards, curiosity modules and training/evaluation utilities.",
+        "Several advanced methods are present as modules, but the repository has no GitHub Actions history or consolidated reproducibility artifact."
+      ],
+      "technology_context": "Python, PyTorch, Gymnasium, Stable-Baselines3 PPO, RND curiosity, Verilator, Verilog, TensorBoard",
+      "canonical_resume_bullet": "Trained a PPO-based RTL bug-finding agent that learned a minimal nine-operation FIFO overflow sequence and integrated the environment with compiled Verilator simulation.",
+      "internal_source_context": "project1_bug_sequence/README.md, RTL/RL/config tree, requirements; no CI runs.",
+      "internal_tailoring_note": "Re-run the baseline/agent evaluation with fixed seeds and distinguish implemented experiments from advanced modules that are present but not benchmarked."
+    },
+    {
+      "name": "WaveformGPT",
+      "repository": "WaveformGPT",
+      "url": "https://github.com/tusharpathaknyu/WaveformGPT",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "Python toolkit for querying VCD/FST simulation waveforms with pattern rules or LLMs, plus temporal assertions, protocol checks, regression comparison, visualization and live/voice interfaces.",
+      "highlights": [
+        "Repository implements VCD/FST parsing, AXI4/Wishbone/SPI checking, SVA-like temporal assertions, waveform comparison and CSV/JSON/WaveDrom/SystemVerilog/cocotb export.",
+        "Demo/source tree includes live WebSocket/simulation monitoring and optional voice/LLM providers.",
+        "Latest GitHub Actions workflow run on 2026-01-23 failed and exposed no job details through the API."
+      ],
+      "technology_context": "Python, VCD/FST, temporal assertions, protocol checking, WebSockets, voice I/O, OpenAI/Gemini/Claude/Ollama, CI integration",
+      "canonical_resume_bullet": "Created a natural-language waveform analysis toolkit with streaming parsers, protocol checks, temporal assertions and regression comparison across simulation traces.",
+      "internal_source_context": "README.md, pyproject.toml, src/tests/demo tree, latest failed workflow run.",
+      "internal_tailoring_note": "Fix or explain the latest CI failure and benchmark large-file parsing before claiming production-scale streaming."
+    },
+    {
+      "name": "UART UVM Verification",
+      "repository": "uart-verification",
+      "url": "https://github.com/tusharpathaknyu/uart-verification",
+      "category": "Digital hardware, FPGA & validation",
+      "summary": "SystemVerilog/UVM environment for UART TX/RX verification with sequences, driver, monitor, scoreboard, coverage model and deliberately buggy RTL variants.",
+      "highlights": [
+        "Coverage report claims 95.2% overall functional coverage, 97.1% line, 94.6% branch, 100% FSM and 91.0% toggle coverage.",
+        "Verification plan targets four injected defects: baud counter, parity calculation, stop-bit checking and sample-point errors.",
+        "Repository provides UVM and EDA Playground variants but no CI run or raw simulator coverage database."
+      ],
+      "technology_context": "SystemVerilog, UVM 1.2, functional/code/FSM/toggle coverage, assertions, EDA Playground, Make",
+      "canonical_resume_bullet": "Built a UVM environment for UART verification with constrained sequences, scoreboarding, error injection and a documented 95.2% functional-coverage closure plan.",
+      "internal_source_context": "README.md, docs/coverage_report.md, RTL/testbench/EDA Playground tree; no CI runs.",
+      "internal_tailoring_note": "Regenerate the coverage report from a named simulator and retain raw logs before presenting coverage percentages as independently reproduced results."
+    },
+    {
+      "name": "ARCS — Autoregressive Circuit Synthesis",
+      "repository": "ARCS",
+      "url": "https://github.com/tusharpathaknyu/ARCS",
+      "category": "AI/ML for circuits & engineering",
+      "summary": "Spec-conditioned circuit-generation research code using native component/value tokens, autoregressive transformers, constrained decoding, graph generative models and SPICE-based ranking/RL.",
+      "highlights": [
+        "Committed publication_eval_v3.json supports a 6.432 mean hybrid reward, 99.875% simulation validity and approximately 0.05 s wall time across the reported setup.",
+        "README reports GRPO improving the graph-transformer path to 96.6% structural and 53.1% simulation validity over five seeds.",
+        "Repository contains extensive ablations, multi-seed outputs, paper assets and a latest successful consistency workflow."
+      ],
+      "technology_context": "Python, PyTorch, autoregressive transformers, graph models, VAE, conditional flow matching, GRPO/REINFORCE, ngspice, LaTeX",
+      "canonical_resume_bullet": "Developed a spec-conditioned circuit generator using component-level tokens and SPICE-grounded ranking, achieving 99.875% simulation validity in the committed hybrid evaluation artifact.",
+      "internal_source_context": "README.md, ARCHITECTURE.md, results/publication_eval_v3.json and other result artifacts, successful latest CI.",
+      "internal_tailoring_note": "Define the evaluation reward in interview/resume supporting material; avoid 'first' claims unless backed by a completed literature review/publication."
+    },
+    {
+      "name": "Neural Surrogate + RL Circuit Design",
+      "repository": "neural-surrogate-rl-circuits",
+      "url": "https://github.com/tusharpathaknyu/neural-surrogate-rl-circuits",
+      "category": "AI/ML for circuits & engineering",
+      "summary": "Power-converter design system combining a learned waveform surrogate, PPO policies and periodic ngspice validation across seven converter topologies.",
+      "highlights": [
+        "Current README reports all seven topologies below SPICE MSE 5 using a dual surrogate/formula architecture and 268K+ SPICE simulations.",
+        "Committed TRAINING_RESULTS.md from 2026-02-12 instead states only 4/7 achieved MSE below 5 and flags buck-boost/flyback generalization failures.",
+        "Repository contains trained checkpoints for all seven topologies, training notebooks/scripts and web/Hugging Face deployment assets."
+      ],
+      "technology_context": "Python, PyTorch, PPO actor-critic, neural waveform surrogate, ngspice, analytical converter models, Jupyter, Hugging Face",
+      "canonical_resume_bullet": "Built a SPICE-in-the-loop RL pipeline for multi-topology power-converter tuning using a fast neural surrogate and per-topology policies.",
+      "internal_source_context": "README.md, TRAINING_RESULTS.md, checkpoint/training tree; no CI runs.",
+      "internal_tailoring_note": "Reconcile README and TRAINING_RESULTS metrics, identify the exact checkpoint/evaluation script for each value, and only then add all-seven-topology or 100,000× speed claims."
+    },
+    {
+      "name": "PowerElecLLM",
+      "repository": "PowerElecLLM",
+      "url": "https://github.com/tusharpathaknyu/PowerElecLLM",
+      "category": "AI/ML for circuits & engineering",
+      "summary": "Benchmark and SPICE-grounded evaluation framework for measuring LLM performance on power-electronics circuit design and preparing fine-tuning datasets.",
+      "highlights": [
+        "README reports four-model evaluation and 25.0% best accuracy for a fine-tuned GPT-4o, using output voltage within 10% of target as a pass criterion.",
+        "Committed combined benchmark summary contains 500 problems (400 train/100 test), while the README headline says 650 and elsewhere also calls the benchmark 500 problems.",
+        "Repository includes expert-verified GATE/MIT problems, synthetic SPICE cases, evaluation outputs, charts and fine-tuning formats; latest Python CI succeeded."
+      ],
+      "technology_context": "Python, ngspice, LLM evaluation/fine-tuning, benchmark design, OpenAI/Gemini/LLaMA/Grok adapters, JSONL, statistical reporting",
+      "canonical_resume_bullet": "Created a SPICE-grounded power-electronics benchmark with expert and synthetic problems, held-out evaluation splits and multi-provider LLM/fine-tuning pipelines.",
+      "internal_source_context": "README.md, benchmark_summary.json, benchmark/evaluation/chart tree, successful latest CI.",
+      "internal_tailoring_note": "Reconcile 500 versus 650 problems and trace the 25.0%/2.3% accuracy numbers to exact committed result files and evaluation versions."
+    },
+    {
+      "name": "OhmAI",
+      "repository": "OhmAI",
+      "url": "https://github.com/tusharpathaknyu/OhmAI",
+      "category": "AI/ML for circuits & engineering",
+      "summary": "FastAPI application that converts natural-language requests into SPICE netlists using Gemini, validates circuits through ngspice and emits Datadog metrics/traces/alerts.",
+      "highlights": [
+        "Architecture combines FastAPI, Gemini 2.5, template/rule logic, ngspice measurements and Datadog observability with Docker/Cloud Run deployment files.",
+        "README claims a 39/39 passing validation suite and reports per-circuit error distributions.",
+        "Committed test_results.json contains 33 HTTP_ERROR entries (all HTTP 422), directly conflicting with the README test claim; no GitHub Actions runs are present."
+      ],
+      "technology_context": "Python, FastAPI, Gemini/Vertex AI, ngspice, Datadog APM/StatsD/events, Docker, Cloud Run, Chart.js",
+      "canonical_resume_bullet": "Developed a natural-language-to-SPICE service with simulator-backed validation and end-to-end Datadog observability for circuit-generation requests.",
+      "internal_source_context": "README.md, test_results.json, test scripts, backend/Datadog/deployment tree; no CI runs.",
+      "internal_tailoring_note": "Re-run both test suites, explain whether test_results.json is an obsolete negative test, and commit a dated passing report before using accuracy/pass-rate numbers."
+    },
+    {
+      "name": "PCB Thermal AI Predictor",
+      "repository": "PCB-Thermal-AI",
+      "url": "https://github.com/tusharpathaknyu/PCB-Thermal-AI",
+      "category": "AI/ML for circuits & engineering",
+      "summary": "U-Net-based predictor for 2D PCB temperature fields from copper, via, component and power maps, with ONNX export, uncertainty estimates, web demo and REST API paths.",
+      "highlights": [
+        "README reports 6.0 °C mean absolute error, approximately 17 °C maximum error and 27 ms ONNX inference for a 4.3M-parameter U-Net.",
+        "Committed dataset_stats.json corroborates 2,000 synthetic samples with 1,600/200/200 train/validation/test splits and four input channels.",
+        "Repository includes PyTorch training, augmentation, MC-dropout uncertainty, FastAPI/Streamlit deployment and thermal visualization utilities."
+      ],
+      "technology_context": "Python, PyTorch U-Net, ONNX, NumPy/Pandas/OpenCV, FastAPI, Streamlit, synthetic thermal simulation, MC Dropout",
+      "canonical_resume_bullet": "Trained and deployed a U-Net thermal-field predictor on 2,000 synthetic PCB samples with ONNX inference and uncertainty-aware visualization.",
+      "internal_source_context": "README.md, dataset_stats.json, training/API/demo tree; no CI runs.",
+      "internal_tailoring_note": "Commit an evaluation artifact that reproduces the 6.0 °C MAE, ~17 °C max error and 27 ms latency; dataset statistics alone do not validate model accuracy."
+    },
+    {
+      "name": "GymEZ",
+      "repository": "GymEZ",
+      "url": "https://github.com/tusharpathaknyu/GymEZ",
+      "category": "Product, embedded & full-stack systems",
+      "summary": "Private fitness/game product connecting camera-based pose controls and workout progression to a Unity combat game, backed by a React Native app and Supabase services; repository also contains CombatBand wearable design material.",
+      "highlights": [
+        "README states an end-to-end Android prototype works on a Samsung Galaxy S24, with per-hand punches, blocking, workout-driven stats and Gemini meal scanning.",
+        "Repository documents React Native/TypeScript, Unity/C#, MediaPipe pose detection, Supabase, extensive services/screens and an nRF52840/BMI270/MAX30102 wearable concept/PCB.",
+        "Latest CI on 2026-06-30 failed in Lint & Type Check; downstream unit/build/E2E jobs were skipped."
+      ],
+      "technology_context": "React Native, TypeScript, Unity 6/C#, MediaPipe, Supabase/PostgreSQL/Realtime, Gemini, BLE, KiCad, nRF52840, BMI270, MAX30102",
+      "canonical_resume_bullet": "Built an Android fitness-game prototype that maps live camera pose events and workout history into a Unity combat system through a React Native/Supabase architecture.",
+      "internal_source_context": "Private README.md, GYMEZ_EVERYTHING.md, IMPLEMENTATION_SUMMARY.md, package manifest, code/hardware/game tree, latest failed CI.",
+      "internal_tailoring_note": "Fix lint/type errors; separate implemented wearable hardware from design documentation; confirm the 65-screen/44-service counts and any production-user claims before use."
+    },
+    {
+      "name": "GuideBot",
+      "repository": "guidebot",
+      "url": "https://github.com/tusharpathaknyu/guidebot",
+      "category": "Product, embedded & full-stack systems",
+      "summary": "Voice-and-vision AI workbench assistant for hardware makers with live camera/whiteboard context, structured schematic drawing and pay-as-you-go SaaS billing.",
+      "highlights": [
+        "Code implements Flask-SocketIO sessions, OpenAI text/vision/speech/image calls and a structured draw_schematic tool for circuit diagrams.",
+        "SaaS layer includes Google OAuth, Stripe top-ups/webhooks, a prepaid wallet, usage ledger and SQLite/PostgreSQL support.",
+        "Repository contains Render deployment configuration but no README, tests or GitHub Actions history."
+      ],
+      "technology_context": "Python, Flask, Flask-SocketIO, OpenAI multimodal APIs, JavaScript/HTML/CSS, SQLAlchemy, Google OAuth, Stripe, PostgreSQL/SQLite, Render",
+      "canonical_resume_bullet": "Developed a multimodal hardware-workbench assistant with live voice/vision context, structured schematic generation and transparent usage-based billing.",
+      "internal_source_context": "Private server.py, models.py, requirements.txt, DEPLOY.md, frontend tree; no CI runs.",
+      "internal_tailoring_note": "Add a README, tests and threat/privacy review; verify the configured markup percentage because source comments and constants disagree (3% versus 5%)."
+    },
+    {
+      "name": "GymEZ Fighting Game Prototype",
+      "repository": "gymez-fighting-game",
+      "url": "https://github.com/tusharpathaknyu/gymez-fighting-game",
+      "category": "Product, embedded & full-stack systems",
+      "summary": "Early Godot 4.5/HTML5 prototype that validated camera-as-controller combat before the production direction moved to Unity in the main GymEZ repository.",
+      "highlights": [
+        "README says camera_pose.js and the camera-controller concept carried into the current product while the Godot engine and CombatBand direction changed.",
+        "Repository includes GDScript game logic, JavaScript camera pose detection and a React Native bridge prototype.",
+        "README labels the project archived, but GitHub's repository archived flag is currently false."
+      ],
+      "technology_context": "Godot 4.5, GDScript, JavaScript pose detection, HTML5/WebView, Python bridge code",
+      "canonical_resume_bullet": "Prototyped camera-driven combat in Godot/HTML5 and used the result to de-risk pose controls before migrating the production game to Unity.",
+      "internal_source_context": "README.md and project/source tree; no CI runs.",
+      "internal_tailoring_note": "Either archive the repository in GitHub or remove the mismatch; present it as a validation milestone within GymEZ, not as a separate active product."
+    },
+    {
+      "name": "Simulink Magnetic Signal Analyzer",
+      "repository": "simulink-magnetic-analyzer",
+      "url": "https://github.com/tusharpathaknyu/simulink-magnetic-analyzer",
+      "category": "Product, embedded & full-stack systems",
+      "summary": "ESP32/SS49E-to-Simulink signal-processing demo for live magnetic-field visualization, filtering, statistics and threshold alerts.",
+      "highlights": [
+        "README documents a 500 Hz sensor stream over 115200-baud serial into MATLAB/Simulink.",
+        "Planned model computes moving-average filtering, mean/RMS/peak-to-peak metrics and dashboard alerts.",
+        "Repository has a single commit and includes a MATLAB serial test plus a linked external demo video, but no committed Simulink model artifact is visible in the tree."
+      ],
+      "technology_context": "MATLAB, Simulink, ESP32, SS49E Hall sensor, serial acquisition, moving-average filtering, real-time dashboards",
+      "canonical_resume_bullet": "Integrated an ESP32 Hall-sensor stream with MATLAB/Simulink for live filtering, statistics and magnetic-signal visualization.",
+      "internal_source_context": "README.md, matlab/testSerialConnection.m, repository tree; no CI runs.",
+      "internal_tailoring_note": "Confirm the linked demo and retain the actual .slx model/results in the repository before describing the complete model as reproducible."
+    },
+    {
+      "name": "Magnetic SaaS / MFL Fingerprinting",
+      "repository": "magnetic-saas-mfl",
+      "url": "https://github.com/tusharpathaknyu/magnetic-saas-mfl",
+      "category": "Product, embedded & full-stack systems",
+      "summary": "Non-contact magnetic load-state/anomaly pipeline using an ESP32 Hall sensor, Python collection/feature extraction, classical ML and a Streamlit dashboard.",
+      "highlights": [
+        "Repository includes firmware, live collector, feature extraction, model training and dashboard paths.",
+        "README defines idle/medium/high load collection workflow and safe, non-invasive sensor placement.",
+        "The stated 80–90% classification accuracy is a success criterion, not a reported achieved metric."
+      ],
+      "technology_context": "ESP32/Arduino C++, Hall sensing, Python, NumPy/Pandas/SciPy, scikit-learn, FFT/features, anomaly detection, Streamlit",
+      "canonical_resume_bullet": "Built an end-to-end non-contact magnetic-fingerprinting prototype spanning ESP32 acquisition, feature extraction, load-state classification and live monitoring.",
+      "internal_source_context": "README.md, firmware/collector/analysis/dashboard tree, requirements; no CI runs.",
+      "internal_tailoring_note": "Collect and commit labeled data, confusion matrices and anomaly results before citing any accuracy or false-positive number."
+    },
+    {
+      "name": "IPC, Threading & Scheduling",
+      "repository": "ipc_threading_scheduling",
+      "url": "https://github.com/tusharpathaknyu/ipc_threading_scheduling",
+      "category": "Systems & foundational projects",
+      "summary": "C program that partitions a large numeric input among POSIX threads, exchanges data through System V shared memory and coordinates read/sum phases with mutexes/condition variables and scheduling logic.",
+      "highlights": [
+        "Single-file implementation uses pthreads, shared memory, process control and timing instrumentation.",
+        "Repository has one commit attributed to tpathak1411 rather than the currently authenticated GitHub handle."
+      ],
+      "technology_context": "C, POSIX threads, System V shared memory, mutexes/condition variables, process scheduling, file partitioning",
+      "canonical_resume_bullet": "Parallelized large-file ingestion and aggregation in C using pthreads and shared-memory IPC, with synchronization and timing instrumentation.",
+      "internal_source_context": "priority-scheduling-main.c, repository/contributor metadata; no README or CI.",
+      "internal_tailoring_note": "Confirm tpathak1411 is your previous account, compile with warnings enabled and document input size/runtime comparisons before using performance language."
+    },
+    {
+      "name": "Multithreaded NxN Sudoku Solver",
+      "repository": "Sudoku",
+      "url": "https://github.com/tusharpathaknyu/Sudoku",
+      "category": "Systems & foundational projects",
+      "summary": "C backtracking solver that creates pthread branches for candidate values up to a thread cap and supports square Sudoku grids up to 36×36.",
+      "highlights": [
+        "Source contains recursive safety checks, branch-local grid copies and a shared solution flag.",
+        "Repository has one commit attributed to tpathak1411, no README, tests or CI, and the source references MAX_THREADS without an active definition in the committed file."
+      ],
+      "technology_context": "C, pthreads, recursive backtracking, concurrency, file input",
+      "canonical_resume_bullet": "Explored parallel backtracking for generalized NxN Sudoku by spawning bounded pthread branches across valid candidate assignments.",
+      "internal_source_context": "sudoku.c and repository/contributor metadata; no README or CI.",
+      "internal_tailoring_note": "Confirm old-handle authorship, fix the MAX_THREADS build issue and add correctness/performance tests before listing as a completed solver."
+    }
+  ],
+  "profile_fields_to_collect_later": [
+    "Preferred job locations and remote/hybrid constraints",
+    "Work authorization and sponsorship needs",
+    "Salary preferences",
+    "Roles or industries to exclude",
+    "Final approved wording for any new work or project results"
+  ]
+}
