@@ -16,9 +16,10 @@ from .db import Database
 from .outreach import OutreachBounceError, OutreachComposer
 from .outreach import send_outreach as send_outreach_email
 from .sources import (
-    ArbeitnowSource, JobListing, OpenAIWebJobSource, RemotiveSource,
-    YCJobSource, classify_job_region, classify_role_lane, group_queries_by_lane,
-    normalize_dedupe_key, prescreen_score,
+    ATSBoardTarget, ATSJobSource, ArbeitnowSource, JobListing, OpenAIWebJobSource,
+    RemotiveSource, YCJobSource, classify_job_region, classify_role_lane,
+    extract_ats_board_targets, group_queries_by_lane, normalize_dedupe_key,
+    parse_ats_board_target, prescreen_score,
 )
 from .startup_sources import (
     PortfolioPageSource, SECFormDSource, StartupCompany, YCStartupSource,
@@ -163,6 +164,15 @@ class JobAgentService:
                     self.settings.job_search_regions,
                 ),
             ))
+        if self.settings.enable_ats_job_search:
+            ats_targets = self._ats_board_targets()
+            if ats_targets:
+                ats_source = ATSJobSource(ats_targets)
+                source_count += 1
+                tasks.append((
+                    ats_source.name, "direct employer ATS boards", ats_source.search,
+                    (queries, max(self.settings.job_search_limit, self.settings.web_search_job_limit, 200)),
+                ))
         with ThreadPoolExecutor(max_workers=min(10, len(tasks) or 1)) as executor:
             futures = {
                 executor.submit(function, *arguments): (source_name, query_label)
@@ -173,9 +183,10 @@ class JobAgentService:
                 try:
                     for listing in future.result():
                         if not listing.role_lane or not listing.search_region:
+                            query_for_lane = query_label if query_label in queries else ""
                             listing = JobListing(**{
                                 **listing.__dict__,
-                                "role_lane": listing.role_lane or classify_role_lane(listing.title, query_label),
+                                "role_lane": listing.role_lane or classify_role_lane(listing.title, query_for_lane),
                                 "search_region": listing.search_region or classify_job_region(listing.location),
                             })
                         unique[(listing.source, listing.source_id)] = listing
@@ -201,6 +212,54 @@ class JobAgentService:
             "inserted": inserted, "lanes": lane_counts, "regions": region_counts,
             "errors": errors,
         }
+
+    def _ats_board_targets(self) -> tuple[ATSBoardTarget, ...]:
+        targets: dict[tuple[str, str], ATSBoardTarget] = {}
+        for raw in self.settings.ats_board_targets:
+            target = parse_ats_board_target(raw)
+            if target:
+                targets[(target.ats, target.slug)] = target
+        for target in self._discover_ats_board_targets_from_companies():
+            targets[(target.ats, target.slug)] = target
+        return tuple(targets.values())
+
+    def _discover_ats_board_targets_from_companies(self) -> tuple[ATSBoardTarget, ...]:
+        rows = self.db.all(
+            """SELECT name, domain FROM yc_companies WHERE domain != ''
+               UNION ALL
+               SELECT name, domain FROM startup_companies WHERE domain != ''
+               ORDER BY name LIMIT ?""",
+            (self.settings.ats_discover_max_companies,),
+        )
+        targets: dict[tuple[str, str], ATSBoardTarget] = {}
+        for row in rows:
+            for url in self._candidate_career_urls(row["domain"]):
+                before_count = len(targets)
+                try:
+                    request = urllib.request.Request(
+                        url, headers={"User-Agent": "approval-first-job-agent/0.3"}
+                    )
+                    with urllib.request.urlopen(request, timeout=12) as response:
+                        html_text = response.read().decode("utf-8", errors="replace")
+                except (urllib.error.URLError, TimeoutError, ValueError):
+                    continue
+                for target in extract_ats_board_targets(html_text, row["name"]):
+                    targets[(target.ats, target.slug)] = target
+                if len(targets) > before_count:
+                    break
+        return tuple(targets.values())
+
+    @staticmethod
+    def _candidate_career_urls(domain: str) -> tuple[str, ...]:
+        clean = domain.strip().removeprefix("https://").removeprefix("http://").strip("/")
+        if not clean:
+            return ()
+        return (
+            f"https://{clean}/careers",
+            f"https://{clean}/jobs",
+            f"https://{clean}/join-us",
+            f"https://{clean}",
+        )
 
     def run_automatic_cycle(self) -> dict[str, Any]:
         result: dict[str, Any] = {"discovery": self.sync_jobs(), "tailored": [], "errors": []}

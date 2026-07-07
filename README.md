@@ -7,6 +7,7 @@ This is a personal tool, not a public multi-user website. Local mode refuses non
 ## What works
 
 - Imports roles from Remotive, Arbeitnow, and public Y Combinator startup job pages; uses OpenAI web search for current direct employer/ATS listings when a valid API key is configured; and accepts manually pasted listings.
+- Pulls direct employer-owned ATS boards from Greenhouse, Lever, and Ashby. Configure known boards with `ATS_BOARD_TARGETS`, and the agent also discovers board links from already-synced YC/funded-startup company career pages.
 - Stores your profile, jobs, review packages, decisions, and audit history in local SQLite.
 - Uses the OpenAI Responses API with strict structured output to score fit and tailor materials.
 - Enforces approval in the backend with a per-package approval token, not just a UI confirmation.
@@ -152,7 +153,7 @@ Implement one adapter per application system (for example, Greenhouse or Lever) 
 
 Keep `ENABLE_LIVE_APPLICATIONS=false` until an adapter has integration tests against a non-production test account.
 
-Two adapters ship in `job_agent/adapters/` (Greenhouse, Lever), built with [Playwright](https://playwright.dev/) (`pip install -e '.[automation]'` then `playwright install chromium`). Both follow the six rules above: they fill the real form fields they can confidently map to your saved profile answers, and raise instead of guessing when a required screening question has no known mapping (`job_agent/adapters/base.py:KNOWN_FIELD_MAP`) — that job is marked `needs_manual_review` instead of being submitted.
+Two adapters ship in `job_agent/adapters/` (Greenhouse, Lever), built with [Playwright](https://playwright.dev/) (`pip install -e '.[automation]'` then `playwright install chromium`). Both follow the six rules above: they fill the real form fields they can confidently map to your saved profile answers, and raise instead of guessing when a required screening question has no known mapping (`job_agent/adapters/base.py:KNOWN_FIELD_MAP`) — that job is marked `needs_manual_review` instead of being submitted. The adapters also verify resume/cover-letter artifacts exist before upload, skip hidden/disabled fields, support mapped text/select/radio questions, block sensitive fields such as SSN/passport/date-of-birth for manual review, and require confirmation text or a confirmation URL after a live submit click before reporting success.
 
 ## Autonomous submission and outreach
 

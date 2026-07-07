@@ -46,6 +46,9 @@ class Settings:
     web_search_per_lane_limit: int = 10
     job_search_regions: tuple[str, ...] = ()
     enable_yc_job_search: bool = False
+    enable_ats_job_search: bool = True
+    ats_board_targets: tuple[str, ...] = ()
+    ats_discover_max_companies: int = 80
     auto_submit: bool = False
     auto_submit_min_fit_score: int = 70
     enable_live_greenhouse: bool = False
@@ -110,6 +113,16 @@ class Settings:
                 if region.strip()
             ),
             enable_yc_job_search=_bool("ENABLE_YC_JOB_SEARCH", True),
+            enable_ats_job_search=_bool("ENABLE_ATS_JOB_SEARCH", True),
+            ats_board_targets=tuple(
+                target.strip()
+                for target in os.getenv(
+                    "ATS_BOARD_TARGETS",
+                    "greenhouse:openai,greenhouse:andurilindustries,lever:anthropic,ashby:posthog",
+                ).split(",")
+                if target.strip()
+            ),
+            ats_discover_max_companies=int(os.getenv("ATS_DISCOVER_MAX_COMPANIES", "80")),
             auto_submit=_bool("AUTO_SUBMIT"),
             auto_submit_min_fit_score=int(os.getenv("AUTO_SUBMIT_MIN_FIT_SCORE", "70")),
             enable_live_greenhouse=_bool("ENABLE_LIVE_GREENHOUSE"),

@@ -5,7 +5,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 from job_agent.adapters import SubmissionResult, UnmappedQuestionError, find_adapter
-from job_agent.adapters.base import map_known_field
+from job_agent.adapters.base import is_sensitive_question, mapped_or_raise, map_known_field
 from job_agent.artifacts import write_package_artifacts
 from job_agent.config import Settings
 from job_agent.context import context_summary, load_candidate_context
@@ -13,9 +13,10 @@ from job_agent.db import Database
 from job_agent.outreach import OutreachBounceError, send_outreach
 from job_agent.service import ApprovalError, JobAgentService
 from job_agent.sources import (
-    ArbeitnowSource, JobListing, OpenAIWebJobSource, RemotiveSource,
-    YCJobSource, classify_job_region, classify_role_lane, group_queries_by_lane,
-    matches_role_query, normalize_dedupe_key, prescreen_score, strip_html,
+    ATSJobSource, ArbeitnowSource, JobListing, OpenAIWebJobSource, RemotiveSource,
+    YCJobSource, classify_job_region, classify_role_lane, extract_ats_board_targets,
+    group_queries_by_lane, matches_role_query, normalize_dedupe_key, parse_ats_board_target,
+    prescreen_score, strip_html,
 )
 from job_agent.startup_sources import SECFormDSource, StartupCompany, discover_contacts, score_startup_company
 from job_agent.server import require_local_host
@@ -97,6 +98,53 @@ class AgentTests(unittest.TestCase):
         jobs = ArbeitnowSource.parse(payload)
         self.assertEqual([job.source_id for job in jobs], ["remote-role"])
 
+    def test_ats_board_target_parsing_and_link_extraction(self):
+        target = parse_ats_board_target("greenhouse:openai")
+        self.assertEqual(target.slug, "openai")
+        self.assertIsNone(parse_ats_board_target("unknown:openai"))
+        html = """
+        <a href="https://boards.greenhouse.io/diodecomputers">Jobs</a>
+        <a href="https://jobs.lever.co/anthropic/abc">Role</a>
+        <a href="https://jobs.ashbyhq.com/posthog">Careers</a>
+        """
+        targets = extract_ats_board_targets(html, "Acme")
+        self.assertEqual(
+            {(item.ats, item.slug) for item in targets},
+            {("greenhouse", "diodecomputers"), ("lever", "anthropic"), ("ashby", "posthog")},
+        )
+
+    def test_ats_source_parses_greenhouse_lever_and_ashby(self):
+        greenhouse = ATSJobSource.parse_greenhouse({
+            "jobs": [{
+                "id": 1,
+                "title": "FPGA Engineer",
+                "absolute_url": "https://boards.greenhouse.io/acme/jobs/1",
+                "location": {"name": "Toronto, Canada"},
+                "content": "<p>Build FPGA systems.</p>",
+                "departments": [{"name": "Hardware"}],
+            }]
+        }, "acme", "Acme")
+        lever = ATSJobSource.parse_lever([{
+            "id": "abc",
+            "text": "Unity Gameplay Engineer",
+            "hostedUrl": "https://jobs.lever.co/gameco/abc",
+            "categories": {"location": "Remote", "team": "Games", "commitment": "Full-time"},
+            "descriptionPlain": "Unity and gameplay systems.",
+        }], "gameco", "GameCo")
+        ashby = ATSJobSource.parse_ashby({
+            "jobs": [{
+                "id": "j1",
+                "title": "Applications Engineer",
+                "jobUrl": "https://jobs.ashbyhq.com/acme/j1",
+                "location": {"name": "India"},
+                "descriptionHtml": "<p>Customer-facing engineering.</p>",
+            }]
+        }, "acme", "Acme")
+        self.assertEqual(greenhouse[0].company, "Acme")
+        self.assertIn("FPGA", greenhouse[0].description)
+        self.assertEqual(lever[0].title, "Unity Gameplay Engineer")
+        self.assertEqual(ashby[0].location, "India")
+
     def test_candidate_context_loader_and_summary(self):
         path = Path(self.temp.name) / "context.json"
         path.write_text('{"identity":{"resume_name":"Tushar"},"experience":[{}],"projects":[{},{}],"target_lanes":["hardware"]}')
@@ -138,6 +186,28 @@ class AgentTests(unittest.TestCase):
             result = self.service.sync_jobs()
         self.assertEqual(result["sources"], 3)
         self.assertEqual(result["inserted"], 1)
+
+    def test_direct_ats_discovery_is_used_when_targets_exist(self):
+        self.service.settings = replace(
+            self.service.settings,
+            enable_openai_job_search=False,
+            enable_yc_job_search=False,
+            enable_ats_job_search=True,
+            ats_board_targets=("greenhouse:acme",),
+            job_search_queries=("FPGA engineer",),
+        )
+        ats_job = JobListing(
+            "greenhouse", "acme:1", "FPGA Engineer", "Acme", "Canada",
+            "https://boards.greenhouse.io/acme/jobs/1", "Build FPGA systems.",
+        )
+        with patch("job_agent.service.RemotiveSource.search", return_value=[]), patch(
+            "job_agent.service.ArbeitnowSource.search", return_value=[]
+        ), patch("job_agent.service.ATSJobSource.search", return_value=[ats_job]):
+            result = self.service.sync_jobs()
+        self.assertEqual(result["sources"], 3)
+        self.assertEqual(result["inserted"], 1)
+        row = self.service.db.one("SELECT * FROM jobs WHERE source='greenhouse'")
+        self.assertEqual(row["role_lane"], "FPGA Engineering")
 
     def test_yc_job_source_extracts_embedded_jobs_and_preserves_visa_note(self):
         embedded = (
@@ -415,6 +485,11 @@ class AgentTests(unittest.TestCase):
         profile = {"application_answers": {"authorized_us": "Yes, citizen"}}
         self.assertEqual(map_known_field("Are you authorized to work in the United States?", profile), "Yes, citizen")
         self.assertIsNone(map_known_field("What is your favorite color?", profile))
+        self.assertTrue(is_sensitive_question("Please enter your Social Security Number"))
+        with self.assertRaises(UnmappedQuestionError):
+            mapped_or_raise("Date of birth", profile, "Greenhouse", required=False)
+        with self.assertRaises(UnmappedQuestionError):
+            mapped_or_raise("What is your favorite color?", profile, "Lever", required=True)
 
     def test_new_automation_flags_default_off(self):
         default_settings = settings(Path(self.temp.name) / "flags.db")

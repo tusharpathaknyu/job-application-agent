@@ -76,6 +76,12 @@ ROLE_LANE_ORDER = (
     "Game Development",
 )
 
+EXCLUDED_NON_ENGINEERING_TITLE_TERMS = (
+    "account manager", "customer success manager", "technical account manager",
+    "marketer", "marketing", "recruiter", "talent acquisition", "product manager",
+    "program manager", "project manager", "sales representative", "business development",
+)
+
 
 def role_lane_for_query(query: str) -> str:
     value = query.lower()
@@ -285,6 +291,247 @@ class ArbeitnowSource:
             if len(listings) >= limit:
                 break
         return listings
+
+
+@dataclass(frozen=True)
+class ATSBoardTarget:
+    ats: str
+    slug: str
+    company_hint: str = ""
+
+
+def parse_ats_board_target(value: str) -> ATSBoardTarget | None:
+    raw = value.strip()
+    if not raw:
+        return None
+    if ":" not in raw:
+        return None
+    ats, slug = raw.split(":", 1)
+    ats = ats.strip().lower()
+    slug = slug.strip().strip("/")
+    if ats not in {"greenhouse", "lever", "ashby"} or not slug:
+        return None
+    return ATSBoardTarget(ats=ats, slug=slug)
+
+
+def extract_ats_board_targets(html_text: str, company_hint: str = "") -> list[ATSBoardTarget]:
+    decoded = html.unescape(html_text)
+    targets: dict[tuple[str, str], ATSBoardTarget] = {}
+    patterns = (
+        ("greenhouse", r"https?://boards\.greenhouse\.io/([A-Za-z0-9_-]+)"),
+        ("greenhouse", r"https?://job-boards\.greenhouse\.io/([A-Za-z0-9_-]+)"),
+        ("lever", r"https?://jobs\.lever\.co/([A-Za-z0-9_-]+)"),
+        ("ashby", r"https?://jobs\.ashbyhq\.com/([A-Za-z0-9_-]+)"),
+    )
+    for ats, pattern in patterns:
+        for match in re.finditer(pattern, decoded):
+            slug = match.group(1).strip()
+            if slug and slug.lower() not in {"embed", "jobs"}:
+                targets[(ats, slug)] = ATSBoardTarget(ats, slug, company_hint)
+    return list(targets.values())
+
+
+class ATSJobSource:
+    name = "direct_ats"
+
+    def __init__(self, targets: tuple[ATSBoardTarget, ...]):
+        deduped: dict[tuple[str, str], ATSBoardTarget] = {}
+        for target in targets:
+            deduped[(target.ats, target.slug)] = target
+        self.targets = tuple(deduped.values())
+
+    def search(self, queries: tuple[str, ...], limit: int = 200) -> list[JobListing]:
+        listings: list[JobListing] = []
+        for target in self.targets:
+            try:
+                if target.ats == "greenhouse":
+                    found = self._greenhouse(target)
+                elif target.ats == "lever":
+                    found = self._lever(target)
+                elif target.ats == "ashby":
+                    found = self._ashby(target)
+                else:
+                    found = []
+            except Exception:
+                continue
+            for listing in found:
+                if self._excluded_title(listing.title):
+                    continue
+                matched_query = self._matched_query(listing, queries)
+                if queries and not matched_query:
+                    continue
+                listings.append(
+                    replace(
+                        listing,
+                        role_lane=listing.role_lane or classify_role_lane(listing.title, matched_query),
+                        search_region=listing.search_region or classify_job_region(listing.location),
+                    )
+                )
+                if len(listings) >= limit:
+                    return listings
+        return listings[:limit]
+
+    @staticmethod
+    def _excluded_title(title: str) -> bool:
+        value = title.lower()
+        if "sales engineer" in value or "solutions engineer" in value or "solution engineer" in value:
+            return False
+        return any(term in value for term in EXCLUDED_NON_ENGINEERING_TITLE_TERMS)
+
+    @staticmethod
+    def _matched_query(listing: JobListing, queries: tuple[str, ...]) -> str:
+        normalized_title = re.sub(r"\s+", " ", listing.title.lower())
+        title_is_engineering_like = bool(
+            re.search(
+                r"\b(engineer|developer|architect|designer|verification|validation|fpga|rtl|"
+                r"firmware|hardware|electrical|electronics|unity|godot|gameplay|xr|"
+                r"applications?|solutions?)\b",
+                normalized_title,
+            )
+        )
+        searchable = re.sub(r"\s+", " ", f"{listing.title} {listing.description}".lower())
+        for query in queries:
+            if matches_role_query(listing.title, query):
+                return query
+            if not title_is_engineering_like:
+                continue
+            if any(_contains_keyword(searchable, keyword) for keyword in ROLE_KEYWORDS.get(query.lower(), (query.lower(),))):
+                return query
+        return ""
+
+    @staticmethod
+    def _request_json(url: str) -> Any:
+        request = urllib.request.Request(url, headers={"User-Agent": "approval-first-job-agent/0.3"})
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.load(response)
+
+    def _greenhouse(self, target: ATSBoardTarget) -> list[JobListing]:
+        url = f"https://boards-api.greenhouse.io/v1/boards/{urllib.parse.quote(target.slug)}/jobs?content=true"
+        payload = self._request_json(url)
+        return self.parse_greenhouse(payload, target.slug, target.company_hint)
+
+    def _lever(self, target: ATSBoardTarget) -> list[JobListing]:
+        url = f"https://api.lever.co/v0/postings/{urllib.parse.quote(target.slug)}?mode=json"
+        payload = self._request_json(url)
+        return self.parse_lever(payload, target.slug, target.company_hint)
+
+    def _ashby(self, target: ATSBoardTarget) -> list[JobListing]:
+        url = f"https://api.ashbyhq.com/posting-api/job-board/{urllib.parse.quote(target.slug)}?includeCompensation=true"
+        payload = self._request_json(url)
+        return self.parse_ashby(payload, target.slug, target.company_hint)
+
+    @staticmethod
+    def parse_greenhouse(payload: dict[str, Any], board_slug: str, company_hint: str = "") -> list[JobListing]:
+        listings: list[JobListing] = []
+        for item in payload.get("jobs", []):
+            title = str(item.get("title", "")).strip()
+            absolute_url = str(item.get("absolute_url", "")).strip()
+            if not title or not absolute_url:
+                continue
+            offices = item.get("offices") or []
+            location = ", ".join(str(office.get("name", "")).strip() for office in offices if office.get("name"))
+            if not location:
+                location = str((item.get("location") or {}).get("name", "")).strip()
+            departments = ", ".join(str(dept.get("name", "")).strip() for dept in item.get("departments", []) if dept.get("name"))
+            content = strip_html(str(item.get("content", "")))
+            description = "\n".join(part for part in (departments, content) if part)
+            listings.append(JobListing(
+                source="greenhouse",
+                source_id=f"{board_slug}:{item.get('id', absolute_url)}",
+                title=title,
+                company=company_hint or board_slug,
+                location=location or "Not listed",
+                url=absolute_url,
+                description=description,
+                published_at=str(item.get("updated_at", "") or item.get("created_at", "")),
+            ))
+        return listings
+
+    @staticmethod
+    def parse_lever(payload: list[dict[str, Any]], board_slug: str, company_hint: str = "") -> list[JobListing]:
+        listings: list[JobListing] = []
+        for item in payload:
+            title = str(item.get("text", "")).strip()
+            hosted_url = str(item.get("hostedUrl", "") or item.get("applyUrl", "")).strip()
+            if not title or not hosted_url:
+                continue
+            categories = item.get("categories") or {}
+            location = str(categories.get("location", "") or item.get("workplaceType", "")).strip()
+            commitment = str(categories.get("commitment", "")).strip()
+            team = str(categories.get("team", "")).strip()
+            lists = []
+            for block in item.get("lists", []) or []:
+                heading = str(block.get("text", "")).strip()
+                body = "\n".join(str(content.get("text", "")).strip() for content in block.get("content", []) if content.get("text"))
+                if heading or body:
+                    lists.append("\n".join(part for part in (heading, body) if part))
+            description = "\n".join(part for part in (team, commitment, strip_html(str(item.get("descriptionPlain", ""))), "\n\n".join(lists)) if part)
+            listings.append(JobListing(
+                source="lever",
+                source_id=f"{board_slug}:{item.get('id', hosted_url)}",
+                title=title,
+                company=company_hint or board_slug,
+                location=location or "Not listed",
+                url=hosted_url,
+                description=description,
+                published_at=str(item.get("createdAt", "")),
+            ))
+        return listings
+
+    @staticmethod
+    def parse_ashby(payload: dict[str, Any], board_slug: str, company_hint: str = "") -> list[JobListing]:
+        jobs = payload.get("jobs") or payload.get("jobPostings") or []
+        listings: list[JobListing] = []
+        for item in jobs:
+            title = str(item.get("title", "")).strip()
+            job_id = str(item.get("id", "") or item.get("jobPostingId", "")).strip()
+            hosted_url = str(item.get("jobUrl", "") or item.get("hostedUrl", "") or item.get("externalLink", "")).strip()
+            if not hosted_url and job_id:
+                hosted_url = f"https://jobs.ashbyhq.com/{urllib.parse.quote(board_slug)}/{urllib.parse.quote(job_id)}"
+            if not title or not hosted_url:
+                continue
+            location = ATSJobSource._ashby_location(item)
+            compensation = ATSJobSource._ashby_compensation(item)
+            description = strip_html(str(item.get("descriptionHtml", "") or item.get("descriptionPlain", "") or item.get("description", "")))
+            listings.append(JobListing(
+                source="ashby",
+                source_id=f"{board_slug}:{job_id or hosted_url}",
+                title=title,
+                company=company_hint or board_slug,
+                location=location or "Not listed",
+                url=hosted_url,
+                description=description,
+                salary=compensation,
+                published_at=str(item.get("publishedAt", "") or item.get("createdAt", "")),
+            ))
+        return listings
+
+    @staticmethod
+    def _ashby_location(item: dict[str, Any]) -> str:
+        location = item.get("location")
+        if isinstance(location, dict):
+            return str(location.get("name", "") or location.get("displayName", "")).strip()
+        if isinstance(location, str):
+            return location.strip()
+        locations = item.get("locations")
+        if isinstance(locations, list):
+            values = [
+                str(location.get("name", "") if isinstance(location, dict) else location).strip()
+                for location in locations
+            ]
+            return ", ".join(value for value in values if value)
+        return ""
+
+    @staticmethod
+    def _ashby_compensation(item: dict[str, Any]) -> str:
+        compensation = item.get("compensation")
+        if isinstance(compensation, dict):
+            parts = [
+                str(compensation.get("compensationTierSummary", "")).strip(),
+                str(compensation.get("summary", "")).strip(),
+            ]
+            return " ".join(part for part in parts if part)
+        return str(compensation or "").strip()
 
 
 YC_JOB_ROUTES = (

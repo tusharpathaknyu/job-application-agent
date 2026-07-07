@@ -44,11 +44,44 @@ KNOWN_FIELD_MAP: dict[str, str] = {
     "authorized to work in the uk": "authorized_uk",
     "authorized to work in australia": "authorized_australia",
     "authorized to work in india": "authorized_india",
+    "need sponsorship in the united states": "sponsorship_us",
+    "need sponsorship in canada": "sponsorship_canada",
+    "need sponsorship in the uk": "sponsorship_uk",
+    "need sponsorship in australia": "sponsorship_australia",
+    "race": "demographic_response_policy",
+    "ethnicity": "demographic_response_policy",
+    "gender": "demographic_response_policy",
+    "veteran": "demographic_response_policy",
+    "disability": "demographic_response_policy",
 }
 
 
+SENSITIVE_FIELD_TERMS: tuple[str, ...] = (
+    "social security", "ssn", "passport", "driver license", "driver's license",
+    "national id", "date of birth", "birth date", "bank", "routing number",
+    "account number", "tax id", "sin number", "aadhaar", "pan card",
+)
+
+
+def normalize_label(label: str) -> str:
+    value = " ".join(label.replace("*", " ").split()).strip().lower()
+    return value.rstrip(":")
+
+
+def is_sensitive_question(label: str) -> bool:
+    normalized = normalize_label(label)
+    return any(term in normalized for term in SENSITIVE_FIELD_TERMS)
+
+
+def ensure_artifact_exists(path: str, label: str) -> None:
+    if not path:
+        return
+    if not Path(path).is_file():
+        raise FileNotFoundError(f"{label} artifact does not exist: {path}")
+
+
 def map_known_field(label: str, profile: dict[str, Any]) -> str | None:
-    normalized = label.strip().lower()
+    normalized = normalize_label(label)
     answers = profile.get("application_answers", {}) or {}
     # Longest phrase first: "authorized to work in the united states" must be checked
     # before a short generic phrase like "state", which is a substring of "United States".
@@ -56,6 +89,19 @@ def map_known_field(label: str, profile: dict[str, Any]) -> str | None:
         if phrase in normalized:
             value = answers.get(field_key)
             return str(value) if value not in (None, "") else None
+    return None
+
+
+def mapped_or_raise(label: str, profile: dict[str, Any], ats_name: str, required: bool) -> str | None:
+    if is_sensitive_question(label):
+        raise UnmappedQuestionError(
+            f"Sensitive {ats_name} question requires manual review: {label}"
+        )
+    mapped = map_known_field(label, profile)
+    if mapped is not None:
+        return mapped
+    if required:
+        raise UnmappedQuestionError(f"Unmapped required {ats_name} question: {label}")
     return None
 
 
