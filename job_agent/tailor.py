@@ -24,11 +24,16 @@ Call out missing requirements honestly. Without a template, return an ATS-friend
 When a LaTeX resume template is provided, return a complete compilable LaTeX resume instead.
 Preserve its preamble, commands, typography, contact block, one-page density, and section
 style; tailor only the section ordering, selected projects, bullets, and truthful skills. Prefer two
-or three projects that best match the role. Internal source/evidence notes guide accuracy and must
+or three projects that best match the role for standard resumes; use four to six projects only when
+needed to fill one page. For research-engineering, senior, or experience-weighted roles, expand Work
+Experience bullets first and reduce lower-signal projects before adding more project entries. Internal source/evidence notes guide accuracy and must
 not appear in the resume or cover letter. Populate resume_data with the same selected content as the
 LaTeX resume so the application can render a matching local PDF. Keep bullets concise enough for one
 page, but do not leave a sparse half-page resume; add additional truthful role-relevant projects,
-skills, and bullets from the candidate context until the resume reads like a full one-page document.
+skills, and work-experience bullets from the candidate context until the resume reads like a full
+one-page document. Skills must reflect the job description's vocabulary when truthful, but avoid
+unsupported claims such as tapeout, DFT/ECO ownership, or formal-methods ownership unless the
+candidate context explicitly supports them.
 Application answers may inform screening_notes, but private address and authorization details
 must not be placed in the resume or cover letter unless the user explicitly supplied them for that
 purpose. Do not add hidden text, keyword stuffing, or unsupported claims."""

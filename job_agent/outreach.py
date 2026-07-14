@@ -28,7 +28,8 @@ low-friction ask (a short call or pointing to the attached resume). No hidden te
 or unsupported claims. Populate resume_data with a general-purpose truthful resume (not tied to a
 specific job posting) selecting the two or three projects and skills most broadly relevant to the
 company's stated focus. Do not leave the generated resume sparse; use additional truthful,
-role-relevant candidate context so the PDF reads like a full one-page document."""
+role-relevant candidate context so the PDF reads like a full one-page document. Prefer expanding
+work-experience evidence before adding many lower-signal projects."""
 
 
 OUTREACH_SCHEMA: dict[str, Any] = {
