@@ -364,6 +364,11 @@ class AgentTests(unittest.TestCase):
         self.assertTrue(Path(artifacts.cover_letter_path).is_file())
         if artifacts.resume_pdf_path:
             self.assertTrue(Path(artifacts.resume_pdf_path).read_bytes().startswith(b"%PDF"))
+            from pypdf import PdfReader
+
+            reader = PdfReader(artifacts.resume_pdf_path)
+            extracted = "\n".join(page.extract_text() or "" for page in reader.pages)
+            self.assertNotIn("|", extracted)
 
 
     def test_normalize_dedupe_key_ignores_punctuation_and_case(self):

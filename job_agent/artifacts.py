@@ -149,7 +149,7 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
             identity.get("phone", ""), identity.get("email", ""),
             identity.get("portfolio", ""), identity.get("linkedin", ""),
         ]
-        story.append(Paragraph(" | ".join(safe(x) for x in contact_parts if x), contact_style))
+        story.append(Paragraph(" - ".join(safe(x) for x in contact_parts if x), contact_style))
         if resume.get("headline"):
             story.append(Paragraph(safe(resume["headline"]), contact_style))
 
@@ -163,7 +163,7 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
                 f"<b>{safe(item.get('institution'))}</b> — {safe(item.get('location'))}", entry
             ))
             story.append(Paragraph(
-                f"{safe(item.get('degree'))} | {safe(item.get('dates'))}", subentry
+                f"{safe(item.get('degree'))} - {safe(item.get('dates'))}", subentry
             ))
 
         section("Work Experience")
@@ -172,7 +172,7 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
                 f"<b>{safe(item.get('organization'))}</b> — {safe(item.get('location'))}", entry
             ))
             story.append(Paragraph(
-                f"{safe(item.get('role'))} | {safe(item.get('dates'))}", subentry
+                f"{safe(item.get('role'))} - {safe(item.get('dates'))}", subentry
             ))
             for text in item.get("bullets", []):
                 story.append(Paragraph(safe(text), bullet, bulletText="•"))
@@ -181,7 +181,7 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
         for item in resume.get("projects", []):
             label = safe(item.get("name"))
             technologies = safe(item.get("technologies"))
-            story.append(Paragraph(f"<b>{label}</b> | {technologies}", entry))
+            story.append(Paragraph(f"<b>{label}</b> - {technologies}", entry))
             for text in item.get("bullets", []):
                 story.append(Paragraph(safe(text), bullet, bulletText="•"))
 

@@ -25,7 +25,9 @@ When a LaTeX resume template is provided, return a complete compilable LaTeX res
 Preserve its preamble, commands, typography, contact block, one-page density, and section
 style; tailor only the section ordering, projects, bullets, and truthful skills. Use parser-friendly
 standard section names such as "Education", "Work Experience", "Projects", and "Technical Skills";
-do not title the project section "Selected Projects" or use long decorative section names. Prefer two
+do not title the project section "Selected Projects" or use long decorative section names. Do not
+use the vertical-bar separator character (ASCII 124) anywhere in resumes because some ATS parsers
+handle it incorrectly; use commas, parentheses, or simple hyphens instead. Prefer two
 or three projects that best match the role for standard resumes; use four to six projects only when
 needed to fill one page. For research-engineering, senior, or experience-weighted roles, expand Work
 Experience bullets first and reduce lower-signal projects before adding more project entries. Internal source/evidence notes guide accuracy and must
