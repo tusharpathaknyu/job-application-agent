@@ -5,6 +5,31 @@ from pathlib import Path
 from typing import Any
 
 
+def apply_project_exclusions(context: dict[str, Any]) -> dict[str, Any]:
+    excluded_projects = context.get("excluded_projects", [])
+    excluded_names = {
+        str(item.get("name", "")).strip().casefold()
+        for item in excluded_projects
+        if isinstance(item, dict)
+    }
+    excluded_repositories = {
+        str(item.get("repository", "")).strip().casefold()
+        for item in excluded_projects
+        if isinstance(item, dict)
+    }
+    if not excluded_names and not excluded_repositories:
+        return context
+
+    sanitized = dict(context)
+    sanitized["projects"] = [
+        project
+        for project in context.get("projects", [])
+        if str(project.get("name", "")).strip().casefold() not in excluded_names
+        and str(project.get("repository", "")).strip().casefold() not in excluded_repositories
+    ]
+    return sanitized
+
+
 def load_candidate_context(path: Path | str) -> dict[str, Any]:
     context_path = Path(path)
     if not context_path.is_file():
@@ -12,7 +37,7 @@ def load_candidate_context(path: Path | str) -> dict[str, Any]:
     data = json.loads(context_path.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError("Candidate context must be a JSON object")
-    return data
+    return apply_project_exclusions(data)
 
 
 def load_resume_template(path: Path | str) -> str:

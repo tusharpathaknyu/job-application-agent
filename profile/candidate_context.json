@@ -98,6 +98,18 @@
     "Applied AI, machine-learning and AI product engineering",
     "Game development, Unity/Godot gameplay and XR/fitness-game engineering"
   ],
+  "excluded_projects": [
+    {
+      "name": "WaveformGPT",
+      "repository": "WaveformGPT",
+      "reason": "Candidate marked this project incomplete; never use in resumes, outreach, or application materials."
+    },
+    {
+      "name": "UART UVM Verification",
+      "repository": "uart-verification",
+      "reason": "Candidate marked this project incomplete; never use in resumes, outreach, or application materials."
+    }
+  ],
   "skill_groups": {
     "programming_and_scripting": [
       "Python",
@@ -318,38 +330,6 @@
       "canonical_resume_bullet": "Trained a PPO-based RTL bug-finding agent that learned a minimal nine-operation FIFO overflow sequence and integrated the environment with compiled Verilator simulation.",
       "internal_source_context": "project1_bug_sequence/README.md, RTL/RL/config tree, requirements; no CI runs.",
       "internal_tailoring_note": "Re-run the baseline/agent evaluation with fixed seeds and distinguish implemented experiments from advanced modules that are present but not benchmarked."
-    },
-    {
-      "name": "WaveformGPT",
-      "repository": "WaveformGPT",
-      "url": "https://github.com/tusharpathaknyu/WaveformGPT",
-      "category": "Digital hardware, FPGA & validation",
-      "summary": "Python toolkit for querying VCD/FST simulation waveforms with pattern rules or LLMs, plus temporal assertions, protocol checks, regression comparison, visualization and live/voice interfaces.",
-      "highlights": [
-        "Repository implements VCD/FST parsing, AXI4/Wishbone/SPI checking, SVA-like temporal assertions, waveform comparison and CSV/JSON/WaveDrom/SystemVerilog/cocotb export.",
-        "Demo/source tree includes live WebSocket/simulation monitoring and optional voice/LLM providers.",
-        "Latest GitHub Actions workflow run on 2026-01-23 failed and exposed no job details through the API."
-      ],
-      "technology_context": "Python, VCD/FST, temporal assertions, protocol checking, WebSockets, voice I/O, OpenAI/Gemini/Claude/Ollama, CI integration",
-      "canonical_resume_bullet": "Created a natural-language waveform analysis toolkit with streaming parsers, protocol checks, temporal assertions and regression comparison across simulation traces.",
-      "internal_source_context": "README.md, pyproject.toml, src/tests/demo tree, latest failed workflow run.",
-      "internal_tailoring_note": "Fix or explain the latest CI failure and benchmark large-file parsing before claiming production-scale streaming."
-    },
-    {
-      "name": "UART UVM Verification",
-      "repository": "uart-verification",
-      "url": "https://github.com/tusharpathaknyu/uart-verification",
-      "category": "Digital hardware, FPGA & validation",
-      "summary": "SystemVerilog/UVM environment for UART TX/RX verification with sequences, driver, monitor, scoreboard, coverage model and deliberately buggy RTL variants.",
-      "highlights": [
-        "Coverage report claims 95.2% overall functional coverage, 97.1% line, 94.6% branch, 100% FSM and 91.0% toggle coverage.",
-        "Verification plan targets four injected defects: baud counter, parity calculation, stop-bit checking and sample-point errors.",
-        "Repository provides UVM and EDA Playground variants but no CI run or raw simulator coverage database."
-      ],
-      "technology_context": "SystemVerilog, UVM 1.2, functional/code/FSM/toggle coverage, assertions, EDA Playground, Make",
-      "canonical_resume_bullet": "Built a UVM environment for UART verification with constrained sequences, scoreboarding, error injection and a documented 95.2% functional-coverage closure plan.",
-      "internal_source_context": "README.md, docs/coverage_report.md, RTL/testbench/EDA Playground tree; no CI runs.",
-      "internal_tailoring_note": "Regenerate the coverage report from a named simulator and retain raw logs before presenting coverage percentages as independently reproduced results."
     },
     {
       "name": "ARCS — Autoregressive Circuit Synthesis",

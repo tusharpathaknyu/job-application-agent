@@ -153,6 +153,24 @@ class AgentTests(unittest.TestCase):
         self.assertEqual(summary["project_count"], 2)
         self.assertTrue(summary["resume_template_loaded"])
 
+    def test_candidate_context_filters_excluded_projects(self):
+        path = Path(self.temp.name) / "context.json"
+        path.write_text(
+            """{
+                "excluded_projects": [
+                    {"name": "WaveformGPT", "repository": "WaveformGPT"},
+                    {"name": "UART UVM Verification", "repository": "uart-verification"}
+                ],
+                "projects": [
+                    {"name": "UVMForge", "repository": "UVMForge"},
+                    {"name": "WaveformGPT", "repository": "WaveformGPT"},
+                    {"name": "UART UVM Verification", "repository": "uart-verification"}
+                ]
+            }"""
+        )
+        context = load_candidate_context(path)
+        self.assertEqual([project["name"] for project in context["projects"]], ["UVMForge"])
+
     def test_multi_query_discovery_deduplicates_jobs(self):
         self.service.settings = replace(
             self.service.settings, job_search_queries=("software engineer", "AI engineer")

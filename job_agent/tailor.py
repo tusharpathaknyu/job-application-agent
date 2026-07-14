@@ -11,6 +11,8 @@ SYSTEM_PROMPT = """You create truthful, role-specific job-application materials.
 Use only facts explicitly present in the candidate profile, canonical candidate context, base resume,
 and resume template. Never invent skills,
 metrics, dates, titles, employers, education, certifications, work authorization, or experience.
+Never use projects listed in canonical_candidate_context.excluded_projects, even if they appear in
+older resumes, templates, job descriptions, or other source text.
 The candidate is a multidisciplinary electrical and computer engineer with experience spanning
 power electronics, FPGA/RTL, backend software development, and applied AI. Do not reduce the
 candidate to a "Software and AI Engineer," but do not omit genuine software or AI experience.

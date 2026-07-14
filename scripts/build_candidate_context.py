@@ -36,6 +36,21 @@ SOURCE_TEMPLATE = Path(
 )
 
 
+EXCLUDED_PROJECTS = [
+    {
+        "name": "WaveformGPT",
+        "repository": "WaveformGPT",
+        "reason": "Candidate marked this project incomplete; never use in resumes, outreach, or application materials.",
+    },
+    {
+        "name": "UART UVM Verification",
+        "repository": "uart-verification",
+        "reason": "Candidate marked this project incomplete; never use in resumes, outreach, or application materials.",
+    },
+]
+EXCLUDED_PROJECT_REPOS = {item["repository"] for item in EXCLUDED_PROJECTS}
+
+
 IDENTITY = {
     "resume_name": "Tushar Pathak",
     "full_name_seen_in_records": "Tushar Dhananjay Pathak / Pathak Tushar Dhananjay",
@@ -129,6 +144,8 @@ def clean_experience() -> list[dict]:
 def clean_projects() -> list[dict]:
     result = []
     for project in PROJECTS:
+        if project["repo"] in EXCLUDED_PROJECT_REPOS:
+            continue
         result.append(
             {
                 "name": project["name"],
@@ -160,6 +177,7 @@ def build_context() -> dict:
         "education": EDUCATION,
         "experience": clean_experience(),
         "target_lanes": TARGET_LANES,
+        "excluded_projects": EXCLUDED_PROJECTS,
         "skill_groups": SKILL_GROUPS,
         "resume_style": {
             "format": "LaTeX",
