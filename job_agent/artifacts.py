@@ -70,6 +70,7 @@ def write_package_artifacts(
 
 
 def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, Any]) -> None:
+    from reportlab.platypus.doctemplate import LayoutError
     from pypdf import PdfReader
     from reportlab.lib import colors
     from reportlab.lib.enums import TA_CENTER, TA_LEFT
@@ -99,7 +100,7 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
     def safe(value: Any) -> str:
         return html.escape(str(value or ""), quote=True)
 
-    def build(scale: float) -> bytes:
+    def build(scale: float, fill: float = 1.0) -> bytes:
         output = BytesIO()
         document = SimpleDocTemplate(
             output,
@@ -113,33 +114,33 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
         )
         body = ParagraphStyle(
             "Body", fontName=regular, fontSize=8.7 * scale, leading=10.1 * scale,
-            spaceAfter=1.6 * scale, alignment=TA_LEFT, textColor=colors.black,
+            spaceAfter=1.6 * scale * fill, alignment=TA_LEFT, textColor=colors.black,
         )
         heading = ParagraphStyle(
             "Heading", parent=body, fontName=bold, fontSize=9.7 * scale,
-            leading=10.6 * scale, spaceBefore=3.2 * scale, spaceAfter=0.8 * scale,
+            leading=10.6 * scale * fill, spaceBefore=3.2 * scale * fill, spaceAfter=0.8 * scale * fill,
             keepWithNext=True,
         )
         entry = ParagraphStyle(
             "Entry", parent=body, fontName=bold, fontSize=8.8 * scale,
-            leading=9.8 * scale, spaceBefore=1.8 * scale, spaceAfter=0,
+            leading=9.8 * scale * fill, spaceBefore=1.8 * scale * fill, spaceAfter=0,
             keepWithNext=True,
         )
         subentry = ParagraphStyle(
             "Subentry", parent=body, fontName=italic, fontSize=8.1 * scale,
-            leading=9.1 * scale, spaceAfter=0.5 * scale, keepWithNext=True,
+            leading=9.1 * scale * fill, spaceAfter=0.5 * scale * fill, keepWithNext=True,
         )
         bullet = ParagraphStyle(
             "Bullet", parent=body, leftIndent=12 * scale, firstLineIndent=-7 * scale,
-            bulletIndent=2 * scale, spaceAfter=0.7 * scale,
+            bulletIndent=2 * scale, spaceAfter=0.7 * scale * fill,
         )
         name_style = ParagraphStyle(
             "Name", parent=body, fontName=bold, fontSize=18 * scale,
-            leading=19 * scale, alignment=TA_CENTER, spaceAfter=1.5 * scale,
+            leading=19 * scale * fill, alignment=TA_CENTER, spaceAfter=1.5 * scale * fill,
         )
         contact_style = ParagraphStyle(
-            "Contact", parent=body, fontSize=7.7 * scale, leading=8.7 * scale,
-            alignment=TA_CENTER, spaceAfter=2.5 * scale,
+            "Contact", parent=body, fontSize=7.7 * scale, leading=8.7 * scale * fill,
+            alignment=TA_CENTER, spaceAfter=2.5 * scale * fill,
         )
 
         story: list[Any] = []
@@ -154,7 +155,7 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
 
         def section(title: str) -> None:
             story.append(Paragraph(safe(title.upper()), heading))
-            story.append(HRFlowable(width="100%", thickness=0.55, color=colors.black, spaceBefore=0, spaceAfter=1.5 * scale))
+            story.append(HRFlowable(width="100%", thickness=0.55, color=colors.black, spaceBefore=0, spaceAfter=1.5 * scale * fill))
 
         section("Education")
         for item in resume.get("education", []):
@@ -194,8 +195,25 @@ def _render_resume_pdf(path: Path, resume: dict[str, Any], context: dict[str, An
         return output.getvalue()
 
     latest = b""
-    for scale in (1.0, 0.95, 0.90, 0.85, 0.80):
-        latest = build(scale)
-        if len(PdfReader(BytesIO(latest)).pages) == 1:
+    layout_candidates = [
+        (1.14, 1.45),
+        (1.12, 1.35),
+        (1.10, 1.25),
+        (1.08, 1.18),
+        (1.05, 1.12),
+        (1.02, 1.08),
+        (1.00, 1.00),
+        (0.95, 1.00),
+        (0.90, 1.00),
+        (0.85, 1.00),
+        (0.80, 1.00),
+    ]
+    for scale, fill in layout_candidates:
+        try:
+            candidate = build(scale, fill)
+        except LayoutError:
+            continue
+        latest = candidate
+        if len(PdfReader(BytesIO(candidate)).pages) == 1:
             break
     path.write_bytes(latest)
