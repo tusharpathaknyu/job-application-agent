@@ -87,6 +87,8 @@ TARGET_LANES = [
     "SoC, ASIC, RTL and verification engineering",
     "SerDes and mixed-signal validation",
     "AI/ML engineering for circuits and hardware",
+    "RAG, LLM agents, MCP and AI developer-tooling roles",
+    "LLM safety, guardrails and secure AI application engineering",
     "Applications and field-applications engineering",
     "Solutions engineering and customer-facing technical roles",
     "Software engineering: backend, full-stack and platform roles",
@@ -110,11 +112,13 @@ SKILL_GROUPS = {
     ],
     "ai_ml_and_data": [
         "PyTorch", "reinforcement learning", "transformers", "graph models", "Gymnasium",
-        "Stable-Baselines3", "NumPy", "Pandas", "Matplotlib", "Jupyter"
+        "Stable-Baselines3", "RAG", "LangGraph", "LangChain", "Pydantic structured outputs",
+        "LLM evaluation", "agentic workflows", "NumPy", "Pandas", "Matplotlib", "Jupyter"
     ],
     "software_and_platforms": [
         "REST APIs", "FastAPI", "backend services", "Swagger/OpenAPI", "Streamlit",
-        "Docker", "Cloud Run", "GitHub Actions", "Datadog"
+        "MCP", "FastMCP", "input validation", "prompt-injection screening",
+        "netlist sanitization", "Docker", "Cloud Run", "GitHub Actions", "Datadog"
     ],
     "game_and_interactive_systems": [
         "Unity 6", "C#", "Godot 4.5", "GDScript", "React Native Unity bridge",
@@ -360,7 +364,10 @@ def build_docx(context: dict) -> Path:
 def main() -> None:
     PROFILE_DIR.mkdir(parents=True, exist_ok=True)
     if SOURCE_TEMPLATE.is_file():
-        TEMPLATE_PATH.write_text(SOURCE_TEMPLATE.read_text(encoding="utf-8"), encoding="utf-8")
+        template_text = SOURCE_TEMPLATE.read_text(encoding="utf-8").replace("$|$", "-")
+        if not template_text.endswith("\n"):
+            template_text += "\n"
+        TEMPLATE_PATH.write_text(template_text, encoding="utf-8")
     context = build_context()
     CONTEXT_PATH.write_text(json.dumps(context, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(CONTEXT_PATH)
